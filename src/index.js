@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, hashHistory as history } from 'react-router';
+import { Router, browserHistory as history } from 'react-router';
 import routes from './routes';
 
 ReactDOM.render(

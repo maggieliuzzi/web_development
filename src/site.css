@@ -1,0 +1,19 @@
+.site-header {
+	color: gray;
+}
+
+.site-footer {	
+	color: gray;
+}
+
+.page-main {
+	color: red;
+}
+
+.page-login {
+	color: blue;
+}
+
+.page-settings {
+	color: green;
+}
