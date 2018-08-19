@@ -8,7 +8,7 @@ import './site.css';
 export default class App extends Component {
   render() {
     return (
-      <div>
+      <div class="site-container">
 		<Header />
         {this.props.children}
 		<Footer />

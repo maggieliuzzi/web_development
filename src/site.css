@@ -1,19 +1,27 @@
-.site-header {
-	color: gray;
+.site-container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 
-.site-footer {	
-	color: gray;
+.site-header, .site-footer {
+	background-color: #CCCCCC;
+	text-align: center;
+}
+
+.page-main, .page-login, .page-settings {
+	flex: 1;
+	text-align: center;
 }
 
 .page-main {
-	color: red;
+	background-color: #FFCCCC;
 }
 
 .page-login {
-	color: blue;
+	background-color: #CCFFCC;
 }
 
 .page-settings {
-	color: green;
+	background-color: #CCCCFF;
 }
