@@ -32,15 +32,20 @@ Once these are installed, complete the following steps:
    npm install
    ```
 
-3. Once the dependencies are installed, run the web app using:
+3. Once the dependencies are installed, start up the database using (omit '-p' on windows):
 
    ```shell
+   mkdir -p ./db/data
+   mongod --dbpath ./db/data
+   ```
+
+4. Finally, run the app using:
+
+   ```sh
    npm start
    ```
 
-The React front-end runs on Port 3000, while the Express back-end runs on Port 3001.
-
-To work with the database, open Mongod using your preferred method and leave it running in the background. The recommended database location is inside the project folder at ./data/db as this is excluded by the .gitignore.
+React runs on Port 3000, Express on Port 3001, and MongoDB on Port 27017. The recommended database location is inside the project folder at ./db/data.
 
 
 
