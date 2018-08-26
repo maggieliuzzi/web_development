@@ -3,6 +3,9 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/demo', { useNewUrlParser: true });
+
 app.use(express.json());
 app.use(express.urlencoded());
 
@@ -25,3 +28,4 @@ app.all("*", (req, res) => {
 app.listen(3001, () => {
   console.log("Express server established and listening to localhost:3001");
 });
+
