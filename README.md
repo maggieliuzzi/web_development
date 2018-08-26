@@ -15,7 +15,9 @@ Up2Date is a news and social media aggregation web application. Its goal is to g
 
 To get the app running, you'll need **Node.js** and **npm** installed. If you do not have it, you can download them from here: https://nodejs.org/en/
 
-Once Node is installed, complete the following steps:
+You'll also need **MongoDB** installed for database connectivity to work. If you do not have it, you can download it from here: https://www.mongodb.com/download-center
+
+Once these are installed, complete the following steps:
 
 1. Clone this repo to a directory of your choice using git:
 
@@ -36,7 +38,9 @@ Once Node is installed, complete the following steps:
    npm start
    ```
 
-The React front-end runs on Port 3000. When the Express back-end is implemented, it will run on a different port.
+The React front-end runs on Port 3000, while the Express back-end runs on Port 3001.
+
+To work with the database, open Mongod using your preferred method and leave it running in the background. The recommended database location is inside the project folder at ./data/db as this is excluded by the .gitignore.
 
 
 
