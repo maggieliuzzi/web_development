@@ -1,37 +1,24 @@
 import React, { Component } from "react";
 
-/*export default class Login extends Component {
-  state = {};
-  componentDidMount() {
+class Message extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { id: "", username: "", password: "" };
+	}
+	
+	componentDidMount() {
     fetch("/api")
       .then(res => res.json())
       .then(user => this.setState(user));
-  }
-  render() {
-    return (
-      <div class="page-login">
-        <p>This is the login page!</p>
-        <p>
-          id: {this.state.id}, Username: {this.state.username}, password:{" "}
-          {this.state.password}
-        </p>
+    }
+	
+	render() {
+		return (
+		<p>Message from Express: (id: {this.state.id}, username: {this.state.username}, password: {this.state.password})</p>
+	    )
+	}
+}
 
-        <form action="/api" method="post">
-          Username:
-          <br />
-          <input type="text" name="username" value="maggieliuzzi" />
-          <br />
-          Password:
-          <br />
-          <input type="password" name="password" value="lalala" />
-          <br />
-          <br />
-          <input type="submit" value="Log In" />
-        </form>
-      </div>
-    );
-  }
-}*/
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -66,6 +53,7 @@ export default class Login extends Component {
     return (
       <div class="page-login">
         <p>This is the login page!</p>
+		<Message />
         <form onSubmit={this.handleSubmit}>
           Username : <br />
           <input
