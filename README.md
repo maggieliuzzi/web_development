@@ -1,4 +1,4 @@
-- # Up2Date
+# Up2Date
 
   This program is built as part of Assignment 3 for Advanced Internet Programming at the University of Technology, Sydney. Spring semester 2018.
 
