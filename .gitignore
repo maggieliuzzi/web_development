@@ -12,6 +12,7 @@
 
 # MongoDB
 /data
+/db
 
 # misc
 .DS_Store
