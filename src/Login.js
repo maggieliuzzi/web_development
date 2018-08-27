@@ -1,31 +1,14 @@
 import React, { Component } from "react";
 
-class Message extends Component {
-	constructor(props) {
-		super(props);
-		this.state = { id: "", username: "", password: "" };
-	}
-	
-	componentDidMount() {
-    fetch("/api")
-      .then(res => res.json())
-      .then(user => this.setState(user));
-    }
-	
-	render() {
-		return (
-		<p>Message from Express: (id: {this.state.id}, username: {this.state.username}, password: {this.state.password})</p>
-	    )
-	}
-}
-
 export default class Login extends Component {
+	
   constructor(props) {
     super(props);
     this.state = { username: "", password: "" };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  
   handleChange(event) {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -35,6 +18,7 @@ export default class Login extends Component {
       [name]: value
     });
   }
+  
   handleSubmit(event) {
     event.preventDefault();
     fetch("/api", {
@@ -49,11 +33,11 @@ export default class Login extends Component {
       })
     });
   }
+  
   render() {
     return (
       <div class="page-login">
         <p>This is the login page!</p>
-		<Message />
         <form onSubmit={this.handleSubmit}>
           Username : <br />
           <input
