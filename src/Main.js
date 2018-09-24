@@ -17,8 +17,8 @@ class NewsList extends Component {
 		subscribeSamples((data) => {
 			var currentlist = this.state.newsposts;
 			currentlist.unshift(data);
-			console.log(data);
-			this.setState(currentlist);
+			var a = currentlist.slice(0,5);
+			this.setState({newsposts: a});
 		});
 	}
 	
