@@ -5,7 +5,7 @@
 }
 
 .site-header, .site-footer {
-	background-color: #CCCCCC;
+	background-color: #EEEEEE;
 	text-align: center;
 }
 
@@ -15,13 +15,13 @@
 }
 
 .page-main {
-	background-color: #FFCCCC;
+	background-color: #CCCCCC;
 }
 
 .page-login {
-	background-color: #CCFFCC;
+	background-color: #CCCCCC;
 }
 
 .page-settings {
-	background-color: #CCCCFF;
+	background-color: #CCCCCC;
 }
