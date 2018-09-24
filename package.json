@@ -21,9 +21,7 @@
     "client": "react-scripts start",
     "server": "nodemon ./server/main.js",
     "start": "concurrently \"npm run client\" \"npm run server\"",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "build": "react-scripts build"
   },
   "proxy": "http://localhost:3001"
 }

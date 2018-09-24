@@ -1,27 +1,16 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import App from './App.js';
-import Main from './Main.js';
-import Login from './Login.js';
-import Settings from './Settings.js';
+import App from './app.js';
+import Login from './login/login.js';
+import Dashboard from './dashboard/dashboard.js';
+import Settings from './settings/settings.js';
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={Main} />
-    <Route path="/login" component={Login} />
+    <IndexRoute component={Login} />
+	<Route path="/dashboard" component={Dashboard} />
+	<Route path="/login" component={Login} />
     <Route path="/settings" component={Settings} />
   </Route>
 );
-
-/*
-
-Use Link for navigation
-
-Anywhere in your component render function's return JSX value, use the Link component:
-
-import { Link } from 'react-router';
-(...)
-<Link to="/some/where">Click me</Link>
-
-*/

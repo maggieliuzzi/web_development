@@ -5,23 +5,12 @@
 }
 
 .site-header, .site-footer {
-	background-color: #EEEEEE;
+	background-color: #EEEE;
 	text-align: center;
 }
 
-.page-main, .page-login, .page-settings {
+.page-dashboard, .page-login, .page-settings {
 	flex: 1;
 	text-align: center;
-}
-
-.page-main {
-	background-color: #CCCCCC;
-}
-
-.page-login {
-	background-color: #CCCCCC;
-}
-
-.page-settings {
-	background-color: #CCCCCC;
+	background-color: #DDDDDD;
 }
