@@ -1,6 +1,37 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const mongoose = require('mongoose');
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var bodyParser = require("body-parser");
+var mongoose = require('mongoose');
+
+// -----------------------------------
+// SOCKET.IO
+// -----------------------------------
+
+io.on('connection', function(socket){
+	console.log('Connection detected!');
+});
+
+function genSamplePost() {
+	titles = ["My Post","Test Post","Greeting","New Status","My Day","New Entry","Blog Post","Reporting In"];
+	names = ["Mitchell","Maggie","Abhusha","John","Carol","Mark","Harry","Jessie","Mark","Adrian","Bob","Tony","Sarah"];
+	bodies = ["Nice day today.","I love AIP!","Anyone out there?","Work is hard...","Just testing things out.","Greetings everyone!","Check this out...","I'm the best :)","Oops..."];
+	sources = ["Facebook","Twitter","News.com","Mag.com","Up2Date","Instagram","Chatter.com","Tumblr"];
+	dates = ["21/3/18","15/4/18","7/5/18","27/7/18","1/8/18","19/9/18","14/3/18","17/4/18","29/5/18","5/7/18","6/8/18","8/9/18"];
+	i = Math.random().toString(36).slice(2)
+	t = titles[Math.floor(Math.random()*(titles.length))];
+	n = names[Math.floor(Math.random()*(names.length))];
+	b = bodies[Math.floor(Math.random()*(bodies.length))];
+	s = sources[Math.floor(Math.random()*(sources.length))];
+	d = dates[Math.floor(Math.random()*(dates.length))];
+	io.emit('samplePost',{id: i, title: t, content: b, posted: d, author: n, source: s});
+}
+setInterval(genSamplePost,3000);
+
+// -----------------------------------
+// DATABASE
+// -----------------------------------
 
 // Connects Mongoose to the database "Up2Date" in MongoDB via localhost:27017
 mongoose.connect('mongodb://localhost:27017/Up2Date', { useNewUrlParser: true });
@@ -55,8 +86,10 @@ NewsPost
 			date: "2018-7-16"}).save();
 	});
 
-// Prepares the Express app
-const app = express();
+
+// -----------------------------------
+// EXPRESS
+// -----------------------------------
 
 // Enables body-parser to parse JSON and URLEncoded streams
 app.use(express.json());
@@ -89,7 +122,6 @@ app.all("*", (req, res) => {
 });
 
 // Makes the app listen to localhost:3001
-app.listen(3001, () => {
+http.listen(3001, () => {
   console.log("Express server established and listening to http://localhost:3001");
 });
-

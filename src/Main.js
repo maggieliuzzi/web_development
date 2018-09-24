@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
+import io from 'socket.io-client';
+var socket = io('http://localhost:3001');
+
+function subscribeSamples(cb) {
+	socket.on('samplePost',(data) => {
+		cb(data);
+	});
+}
 
 class NewsList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			newsposts: this.props.newsposts
+			newsposts: []
 		}
+		subscribeSamples((data) => {
+			var currentlist = this.state.newsposts;
+			currentlist.unshift(data);
+			console.log(data);
+			this.setState(currentlist);
+		});
 	}
 	
 	makeNewsList() {
@@ -26,17 +40,11 @@ class NewsList extends Component {
 	}
 }
 
-var sample = [
-	{id: 1, title: 'TestA', content: 'This is the body! Something exciting happened!', posted:'24/3/18', author:'Mitchell Clarke', source:'Facebook'},
-	{id: 2, title: 'TestB', content: 'Yet another post... such hard work!', posted:'30/4/18', author:'@MJClarke93', source:'Facebook'},
-	{id: 3, title: 'TestC', content: 'I saw a deer today', posted:'11/1/18', author:'Admin', source:'Up2Date'}
-];
-
 export default class Main extends Component {
   render() {
     return (
 		<div class="page-main">
-		  <NewsList newsposts={sample}/>
+		  <NewsList/>
 		</div>
     );
   }
