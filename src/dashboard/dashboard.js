@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
+import './dashboard.css';
+
 var socket = io('http://localhost:3001');
 
 function subscribeSamples(cb) {
