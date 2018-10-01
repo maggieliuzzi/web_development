@@ -4,7 +4,8 @@ var http = require("http").Server(app);
 var io = require("socket.io")(http);
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-
+var bcrypt = require("bcryptjs");
+const saltRounds = 10;
 // -----------------------------------
 // SOCKET.IO
 // -----------------------------------
@@ -177,6 +178,7 @@ var url = "mongodb://localhost:27017/Up2Date";
 
 app.post("/api", (req, res) => {
   try {
+    console.log("You reached here");
     var loginDetails = {
       username: req.body.username,
       password: req.body.password
@@ -255,7 +257,7 @@ app.post("/loginCheck", (req, res) => {
                   loginDetails.password,
                   data[0].password,
                   function(err, res) {
-                    if (!err) {
+                    if (res) {
                       console.log(
                         "You are allowed login. Username and Password matched"
                       );
