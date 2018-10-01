@@ -6,6 +6,26 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
 const saltRounds = 10;
+
+var db = require("./db");
+var models = db.db_start();
+
+db.db_drop_all(models);
+db.db_add(models.usercreds,{username: "Alice1", email: "alice@mail.com", password: "swordfish"});
+db.db_add(models.usercreds,{username: "Bob2", email: "bob@mail.com", password: "octopus"});
+db.db_add(models.usercreds,{username: "Carlos3", email: "carlos@mail.com", password: "whaleshark"});
+db.db_add(models.userprefs,{username: "Alice1", tags: ["space","robotics","nanomaterials"]});
+db.db_add(models.userprefs,{username: "Bob2", tags: ["games","anime","music"]});
+db.db_add(models.userprefs,{username: "Carlos3", tags: ["mathematics","physics","chemistry"]});
+
+setTimeout(() => {
+  db.db_find(models.usercreds, {username: "Alice1"}, (res) => {
+    console.log(res);
+  });
+},8000);
+
+/*
+
 // -----------------------------------
 // SOCKET.IO
 // -----------------------------------
@@ -309,3 +329,5 @@ http.listen(3001, () => {
     "Express server established and listening to http://localhost:3001"
   );
 });
+
+*/
