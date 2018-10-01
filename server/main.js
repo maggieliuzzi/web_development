@@ -99,10 +99,8 @@ setInterval(genSamplePost, 3000);
 // -----------------------------------
 
 // Connects Mongoose to the database "Up2Date" in MongoDB via localhost:27017
-mongoose.connect(
-  "mongodb://localhost:27017/Up2Date",
-  { useNewUrlParser: true }
-);
+mongoose.connect("mongodb://localhost:27017/Up2Date");
+var db = mongoose.connection;
 
 // Moongoose defines the schema for our database
 const User = mongoose.model("User", {
@@ -178,7 +176,6 @@ var url = "mongodb://localhost:27017/Up2Date";
 
 app.post("/api", (req, res) => {
   try {
-    console.log("You reached here");
     var loginDetails = {
       username: req.body.username,
       password: req.body.password
