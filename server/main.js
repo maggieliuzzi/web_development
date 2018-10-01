@@ -8,21 +8,25 @@ var bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
 var db = require("./db");
-var models = db.db_start();
+var m = db.user_db(true);
 
-db.db_drop_all(models);
-db.db_add(models.usercreds,{username: "Alice1", email: "alice@mail.com", password: "swordfish"});
-db.db_add(models.usercreds,{username: "Bob2", email: "bob@mail.com", password: "octopus"});
-db.db_add(models.usercreds,{username: "Carlos3", email: "carlos@mail.com", password: "whaleshark"});
-db.db_add(models.userprefs,{username: "Alice1", tags: ["space","robotics","nanomaterials"]});
-db.db_add(models.userprefs,{username: "Bob2", tags: ["games","anime","music"]});
-db.db_add(models.userprefs,{username: "Carlos3", tags: ["mathematics","physics","chemistry"]});
+db.user_add(m, "Bob", "bob@mail.com", "swordfish");
+db.user_add(m, "Alice", "alice@mail.com", "whaleshark");
+db.user_add(m, "Chris", "chris@mail.com", "giantsquid");
 
-setTimeout(() => {
-  db.db_find(models.usercreds, {username: "Alice1"}, (res) => {
-    console.log(res);
+function delayedFunction() {
+  db.user_exists(m, "Bob", (answer)=>{
+    if (answer==true) {
+      db.user_get_creds(m, "Bob", (creds)=>{
+        console.log(creds);
+      });
+      db.user_get_prefs(m, "Bob", (prefs)=>{
+        console.log(prefs);
+      });
+    }
   });
-},8000);
+}
+setTimeout(()=>delayedFunction(),8000);
 
 /*
 
