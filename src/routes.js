@@ -5,6 +5,7 @@ import App from './app.js';
 import Login from './login/login.js';
 import Dashboard from './dashboard/dashboard.js';
 import Settings from './settings/settings.js';
+import CreateNewAccount from './createnewaccount/createnewaccount.js';
 
 export default (
   <Route path="/" component={App}>
@@ -12,5 +13,6 @@ export default (
 	<Route path="/dashboard" component={Dashboard} />
 	<Route path="/login" component={Login} />
     <Route path="/settings" component={Settings} />
+	<Route path="/newaccount" component={CreateNewAccount} />
   </Route>
 );

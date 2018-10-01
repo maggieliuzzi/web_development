@@ -9,7 +9,7 @@
 	text-align: center;
 }
 
-.page-dashboard, .page-login, .page-settings {
+.page-dashboard, .page-login, .page-settings, .page-newAccount {
 	flex: 1;
 	text-align: center;
 	background-color: #DDDDDD;
