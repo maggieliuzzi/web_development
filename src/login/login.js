@@ -59,7 +59,7 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
-      fetch("/newLogin", {
+      fetch("/api/check", {
         method: "POST",
         headers: {
           Accept: "application/json",

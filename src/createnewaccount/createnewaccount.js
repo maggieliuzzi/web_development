@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./login.css";
 
 export default class Login extends Component {
   constructor(props) {
@@ -59,7 +58,7 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
-      fetch("/newLogin", {
+      fetch("/api/new", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -76,8 +75,8 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div class="page-login">
-        <p>This is the login page!</p>
+      <div class=".page-newAccount">
+        <p>Create New Account !!</p>
         <form onSubmit={this.handleSubmit}>
           Username : <br />
           <input
@@ -117,7 +116,7 @@ export default class Login extends Component {
             {this.state.totalError}
           </div>
           <br />
-          <input type="submit" value="log in" />
+          <input type="submit" value="Create Account" />
         </form>
       </div>
     );
