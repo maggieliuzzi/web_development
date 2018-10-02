@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import "./login.css";
-import { Link } from "react-router";
+import "./createnewaccount.css";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
 
 export default class Login extends Component {
   constructor(props) {
@@ -8,8 +9,11 @@ export default class Login extends Component {
     this.state = {
       username: "",
       password: "",
+      email: "",
       nameError: "",
-      passwordError: ""
+      emailError: "",
+      passwordError: "",
+      totalError: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,6 +30,7 @@ export default class Login extends Component {
   }
   validate = () => {
     let nameError = "";
+    let emailError = "";
     let passwordError = "";
 
     if (!this.state.username) {
@@ -36,10 +41,19 @@ export default class Login extends Component {
       passwordError = "Mandatory Field.";
     }
 
-    if (passwordError || nameError) {
-      this.setState({ passwordError, nameError });
+    if (!this.state.email.includes("@")) {
+      emailError = "Invalid Email Address !!";
+    }
+
+    if (!this.state.email) {
+      emailError = "Mandatory Field.";
+    }
+
+    if (emailError || passwordError || nameError) {
+      this.setState({ emailError, passwordError, nameError });
       return false;
     }
+
     return true;
   };
 
@@ -47,7 +61,13 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
-      fetch("/api/check", {
+      this.state = {
+        nameError: "",
+        emailError: "",
+        passwordError: ""
+      };
+
+      fetch("/api/new", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -59,13 +79,12 @@ export default class Login extends Component {
         })
       });
     }
-    console.log("InValid Credientials");
   }
 
   render() {
     return (
-      <div class="page-login">
-        <p>This is the login page!</p>
+      <div class="page-newAccount">
+        <p>Create New Account !!</p>
         <form onSubmit={this.handleSubmit}>
           Username : <br />
           <input
@@ -89,16 +108,20 @@ export default class Login extends Component {
             {this.state.passwordError}
           </div>
           <br />
-          <br />
-          <input type="submit" value="Sign In" />
-          <br />
-          <br />
-          <div class="page-newAccountArea">
-            <p>
-              <Link to="/newaccount">Create New Account</Link>
-            </p>
+          Email: <br />
+          <input
+            type="text"
+            name="email"
+            value={this.state.email}
+            onChange={this.handleChange}
+          />
+          <div style={{ fontSize: 14, color: "red" }}>
+            {this.state.emailError}
           </div>
-          <p>It's Free and always will be. </p>
+          <br />
+          <br />
+          <br />
+          <input type="submit" value="Sign UP" />
         </form>
       </div>
     );
