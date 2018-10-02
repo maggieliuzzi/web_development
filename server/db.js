@@ -184,7 +184,7 @@ function user_add(models, username, email, password, callback = (success, errmsg
 //                    errmsg  - the type of error that occured, or "No error" if none
   db_exists(models, username, (result, succa)=>{
     if (!result && succa) {
-      say("Hashing"+username+"'s password...");
+      say("Hashing "+username+"'s password...");
       bcrypt.hash(password, saltRounds, function(err, hash) {
         if (err) {
           say("Could not add "+username+" to the database due to a password hashing error: "+err, true);
@@ -230,7 +230,7 @@ function user_check(models, username, password, callback = (result, success, err
   db_find(models.usercreds, {username: username}, (docs, success)=>{
     if (success) {
       if (docs.length >= 1) {
-        say("Unhashing"+username+"'s password...");
+        say("Unhashing "+username+"'s password...");
         var hash = docs[0].password;
         bcrypt.compare(password, hash, function(err, res) {
           if (err) {
