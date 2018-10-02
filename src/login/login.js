@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./login.css";
+import { Link } from "react-router";
 
 export default class Login extends Component {
   constructor(props) {
@@ -7,11 +8,8 @@ export default class Login extends Component {
     this.state = {
       username: "",
       password: "",
-      email: "",
       nameError: "",
-      emailError: "",
-      passwordError: "",
-      totalError: ""
+      passwordError: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,9 +26,7 @@ export default class Login extends Component {
   }
   validate = () => {
     let nameError = "";
-    let emailError = "";
     let passwordError = "";
-    let totalError = "";
 
     if (!this.state.username) {
       nameError = "Mandatory Field.";
@@ -40,18 +36,10 @@ export default class Login extends Component {
       passwordError = "Mandatory Field.";
     }
 
-    if (!this.state.email.includes("@")) {
-      emailError = "Invalid Email Address !!";
-    }
-    if (!this.state.email) {
-      emailError = "Mandatory Field.";
-    }
-
-    if (emailError || passwordError || nameError) {
-      this.setState({ emailError, passwordError, nameError });
+    if (passwordError || nameError) {
+      this.setState({ passwordError, nameError });
       return false;
     }
-
     return true;
   };
 
@@ -101,23 +89,16 @@ export default class Login extends Component {
             {this.state.passwordError}
           </div>
           <br />
-          Email: <br />
-          <input
-            type="text"
-            name="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
-          <div style={{ fontSize: 14, color: "red" }}>
-            {this.state.emailError}
+          <br />
+          <input type="submit" value="Sign In" />
+          <br />
+          <br />
+          <div class="page-newAccountArea">
+            <p>
+              <Link to="/newaccount">Create New Account</Link>
+            </p>
           </div>
-          <br />
-          <br />
-          <div style={{ fontSize: 16, color: "red" }}>
-            {this.state.totalError}
-          </div>
-          <br />
-          <input type="submit" value="log in" />
+          <p>It's Free and always will be. </p>
         </form>
       </div>
     );

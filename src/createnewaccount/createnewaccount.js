@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import "./createnewaccount.css";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
 
 export default class Login extends Component {
   constructor(props) {
@@ -29,7 +32,6 @@ export default class Login extends Component {
     let nameError = "";
     let emailError = "";
     let passwordError = "";
-    let totalError = "";
 
     if (!this.state.username) {
       nameError = "Mandatory Field.";
@@ -42,6 +44,7 @@ export default class Login extends Component {
     if (!this.state.email.includes("@")) {
       emailError = "Invalid Email Address !!";
     }
+
     if (!this.state.email) {
       emailError = "Mandatory Field.";
     }
@@ -58,6 +61,12 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
+      this.state = {
+        nameError: "",
+        emailError: "",
+        passwordError: ""
+      };
+
       fetch("/api/new", {
         method: "POST",
         headers: {
@@ -70,12 +79,11 @@ export default class Login extends Component {
         })
       });
     }
-    console.log("InValid Credientials");
   }
 
   render() {
     return (
-      <div class=".page-newAccount">
+      <div class="page-newAccount">
         <p>Create New Account !!</p>
         <form onSubmit={this.handleSubmit}>
           Username : <br />
@@ -112,11 +120,8 @@ export default class Login extends Component {
           </div>
           <br />
           <br />
-          <div style={{ fontSize: 16, color: "red" }}>
-            {this.state.totalError}
-          </div>
           <br />
-          <input type="submit" value="Create Account" />
+          <input type="submit" value="Sign UP" />
         </form>
       </div>
     );

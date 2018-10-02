@@ -1,0 +1,9 @@
+.page-newAccountArea {
+  width: 1350px;
+  height: 40px;
+  padding: 10px;
+  margin: 0;
+  align-self: center;
+  border: 1px solid blue;
+  background-color: lightseagreen;
+}
