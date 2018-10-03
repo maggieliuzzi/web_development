@@ -5,12 +5,17 @@ var io = require("socket.io")(http);
 var bodyParser = require("body-parser");
 
 
+function say(text) {
+    console.log("\x1b[31;1m%s\x1b[0m","Server: "+text);
+}
+
+
 // --------------------------------------------------------
 // SOCKET.IO
 // --------------------------------------------------------
 
 io.on("connection", function(socket) {
-  console.log("Connection detected!");
+  say("Socket connection detected.");
 });
 
 function genSamplePost() {
@@ -44,14 +49,18 @@ setInterval(genSamplePost, 3000);
 // EXPRESS
 // --------------------------------------------------------
 
-// Enables body-parser to parse JSON and URLEncoded streams
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Enables body-parser to parse JSON streams
+jsonparser = bodyParser.json();
 
 // Connects to the MongoDB database
 var db = require("./db");
 var m = db.user_db(true, true);
 
+// Log connections
+app.use((req, res, next) => {
+  say("Recieved "+req.method+" request to "+req.originalUrl+" from "+req.headers.host+".");
+  next();
+});
 
 // -----------------
 // GET-ing resources
@@ -70,7 +79,7 @@ app.get("/api/creds", (req, res) => {
 });
 
 // Responds to GET at "/api/prefs" by returning a user's preferences
-app.get("/api/prefs/:username", (req, res) => {
+app.get("/api/prefs/:username", jsonparser, (req, res) => {
   var username = req.params.username;
   if (username) {
     db.user_get_prefs(m, username, (result, success, errmsg) => {
@@ -91,7 +100,7 @@ app.get("/api/prefs/:username", (req, res) => {
 // ------------------
 
 // Responds to POST at "/api" by adding a user to the database
-app.post("/api", (req, res) => {
+app.post("/api", jsonparser, (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
   if (username && password) {
@@ -108,7 +117,7 @@ app.post("/api", (req, res) => {
 });
 
 // Responds to POST at "/api/creds" by checking if a user's credentials are correct
-app.post("/api/creds", (req, res) => {
+app.post("/api/creds", jsonparser, (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
   if (username && password) {
@@ -136,7 +145,7 @@ app.get("/api/prefs", (req, res) => {
 // --------------------
 
 // Responds to DELETE at "/api" and similar by deleting the user from the database
-app.delete(["/api", "/api/creds", "/api/prefs"], (req, res) => {
+app.delete(["/api", "/api/creds", "/api/prefs"], jsonparser, (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
   if (username && password) {
@@ -173,7 +182,7 @@ app.put("/api", (req, res) => {
   res.sendStatus(501);
 });
 
-app.put("/api/creds", (req, res) => {
+app.put("/api/creds", jsonparser, (req, res) => {
   username = req.body.username;
   old_password = req.body.password;
   new_password = req.body.new_password;
@@ -200,7 +209,7 @@ app.put("/api/creds", (req, res) => {
   }
 });
 
-app.put("/api/prefs", (req, res) => {
+app.put("/api/prefs", jsonparser, (req, res) => {
   username = req.body.username;
   new_tags = req.body.tags;
   if (username && new_tags) {
@@ -233,5 +242,5 @@ app.all("*", (req, res) => {
 
 // Makes the app listen at http://localhost:3001
 http.listen(3001, () => {
-  console.log("Express server established and listening to http://localhost:3001");
+  say("Express server established and listening to http://localhost:3001.");
 });

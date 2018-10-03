@@ -8,7 +8,7 @@ var verbose = true;
 
 function say(text, bypass=false) {
 // Blocks printing if verbose is set to false, unless specificially told to bypass
-  if (verbose || bypass) {console.log(text);}
+  if (verbose || bypass) {console.log("\x1b[34;1m%s\x1b[0m","DB: "+text);}
 }
 
 

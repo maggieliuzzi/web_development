@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import "./createnewaccount.css";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
 
 export default class Login extends Component {
   constructor(props) {
@@ -61,29 +59,24 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
-      this.state = {
-        nameError: "",
-        emailError: "",
-        passwordError: ""
-      };
-
-      fetch("/api/new", {
+      this.setState({nameError: "", emailError: "", passwordError: ""})
+      fetch("/api", {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username: this.state.username,
-          password: this.state.password
-        })
+        headers: {Accept: "application/json", "Content-Type": "application/json"},
+        body: JSON.stringify({username: this.state.username, password: this.state.password})
+      })
+      .then((res) => {
+        return res.json()
+      })
+      .then((msg) => {
+        console.log(JSON.stringify(msg));
       });
     }
   }
 
   render() {
     return (
-      <div class="page-newAccount">
+      <div className="page-newAccount">
         <p>Create New Account !!</p>
         <form onSubmit={this.handleSubmit}>
           Username : <br />
@@ -117,11 +110,8 @@ export default class Login extends Component {
           />
           <div style={{ fontSize: 14, color: "red" }}>
             {this.state.emailError}
-          </div>
-          <br />
-          <br />
-          <br />
-          <input type="submit" value="Sign UP" />
+          </div><br />
+          <input type="submit" value="Sign Up" />
         </form>
       </div>
     );
