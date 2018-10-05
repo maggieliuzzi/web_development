@@ -3,6 +3,7 @@ var app = express();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 var bodyParser = require("body-parser");
+var cors = require('cors');
 
 function say(text) {
   console.log("\x1b[31;1m%s\x1b[0m", "Server: " + text);
@@ -108,6 +109,9 @@ jsonparser = bodyParser.json();
 // Connects to the MongoDB database
 var db = require("./db");
 var m = db.user_db(true, true);
+
+// Enable CORS on server
+app.use(cors());
 
 // Log connections
 app.use((req, res, next) => {

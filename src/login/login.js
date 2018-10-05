@@ -47,7 +47,11 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
-      fetch("/api/creds", {
+      var hostname = window.location.hostname;
+      var endpoint = "/api/creds";
+      var port = "3001";
+      var url = "http://"+hostname+":"+port+endpoint;
+      fetch(url, {
         method: "POST",
         headers: {
           Accept: "application/json",

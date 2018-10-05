@@ -62,8 +62,17 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
+<<<<<<< HEAD
       this.setState({ nameError: "", emailError: "", passwordError: "" });
       fetch("/api", {
+=======
+      this.setState({nameError: "", emailError: "", passwordError: ""});
+      var hostname = window.location.hostname;
+      var endpoint = "/api";
+      var port = "3001";
+      var url = "http://"+hostname+":"+port+endpoint;
+      fetch(url, {
+>>>>>>> fd35c899b8372e4d88861d146e4ea6c35e5f1051
         method: "POST",
         headers: {
           Accept: "application/json",
