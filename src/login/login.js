@@ -46,7 +46,7 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
-      fetch("/api/creds", {
+      fetch("http://localhost:3001/api/creds", {
         method: "POST",
         headers: {Accept: "application/json", "Content-Type": "application/json"},
         body: JSON.stringify({username: this.state.username, password: this.state.password})

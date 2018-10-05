@@ -60,7 +60,7 @@ export default class Login extends Component {
     const isValid = this.validate();
     if (isValid) {
       this.setState({nameError: "", emailError: "", passwordError: ""})
-      fetch("/api", {
+      fetch("http://localhost:3001/api", {
         method: "POST",
         headers: {Accept: "application/json", "Content-Type": "application/json"},
         body: JSON.stringify({username: this.state.username, password: this.state.password})
