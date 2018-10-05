@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./createnewaccount.css";
+import { IndexRoute, Route, Redirect } from "react-router";
+import { browserHistory } from "react-router";
 
 export default class Login extends Component {
   constructor(props) {
@@ -11,7 +13,8 @@ export default class Login extends Component {
       nameError: "",
       emailError: "",
       passwordError: "",
-      totalError: ""
+      totalError: "",
+      redirect: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -59,18 +62,34 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
-      this.setState({nameError: "", emailError: "", passwordError: ""})
+      this.setState({ nameError: "", emailError: "", passwordError: "" });
       fetch("/api", {
         method: "POST",
-        headers: {Accept: "application/json", "Content-Type": "application/json"},
-        body: JSON.stringify({username: this.state.username, password: this.state.password})
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: this.state.username,
+          password: this.state.password
+        })
       })
-      .then((res) => {
-        return res.json()
-      })
-      .then((msg) => {
-        console.log(JSON.stringify(msg));
-      });
+        .then(res => {
+          return res.json();
+        })
+        .then(msg => {
+          if (msg.success === true) {
+            browserHistory.push("/dashboard");
+            /*<Route
+              exact
+              path="/"
+              render={() => <Redirect to="/dashboard" />}
+            />;
+            */
+            //this.setState({ redirect: true });
+          }
+          console.log(JSON.stringify(msg));
+        });
     }
   }
 
@@ -78,6 +97,7 @@ export default class Login extends Component {
     return (
       <div className="page-newAccount">
         <p>Create New Account !!</p>
+
         <form onSubmit={this.handleSubmit}>
           Username : <br />
           <input
@@ -110,7 +130,8 @@ export default class Login extends Component {
           />
           <div style={{ fontSize: 14, color: "red" }}>
             {this.state.emailError}
-          </div><br />
+          </div>
+          <br />
           <input type="submit" value="Sign Up" />
         </form>
       </div>

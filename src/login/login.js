@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./login.css";
+import { Link } from "react-router";
 
 export default class Login extends Component {
   constructor(props) {
@@ -48,15 +49,21 @@ export default class Login extends Component {
     if (isValid) {
       fetch("/api/creds", {
         method: "POST",
-        headers: {Accept: "application/json", "Content-Type": "application/json"},
-        body: JSON.stringify({username: this.state.username, password: this.state.password})
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: this.state.username,
+          password: this.state.password
+        })
       })
-      .then((res) => {
-        return res.json()
-      })
-      .then((msg) => {
-        console.log(JSON.stringify(msg));
-      });
+        .then(res => {
+          return res.json();
+        })
+        .then(msg => {
+          console.log(JSON.stringify(msg));
+        });
     }
   }
 
@@ -65,7 +72,8 @@ export default class Login extends Component {
       <div className="page-login">
         <p>This is the login page!</p>
         <form onSubmit={this.handleSubmit}>
-          Username:<br />
+          Username:
+          <br />
           <input
             type="text"
             name="username"
@@ -74,8 +82,10 @@ export default class Login extends Component {
           />
           <div style={{ fontSize: 14, color: "red" }}>
             {this.state.nameError}
-          </div><br />
-          Password:<br />
+          </div>
+          <br />
+          Password:
+          <br />
           <input
             type="password"
             name="password"
@@ -84,8 +94,15 @@ export default class Login extends Component {
           />
           <div style={{ fontSize: 14, color: "red" }}>
             {this.state.passwordError}
-          </div><br />
+          </div>
+          <br />
           <input type="submit" value="Sign In" />
+          <div class="page-newAccountArea">
+            <p>
+              <Link to="/newaccount">Create New Account</Link>
+            </p>
+          </div>
+          <p>It's Free and always will be. </p>
         </form>
       </div>
     );

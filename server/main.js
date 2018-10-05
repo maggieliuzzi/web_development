@@ -4,11 +4,9 @@ var http = require("http").Server(app);
 var io = require("socket.io")(http);
 var bodyParser = require("body-parser");
 
-
 function say(text) {
-    console.log("\x1b[31;1m%s\x1b[0m","Server: "+text);
+  console.log("\x1b[31;1m%s\x1b[0m", "Server: " + text);
 }
-
 
 // --------------------------------------------------------
 // SOCKET.IO
@@ -19,14 +17,70 @@ io.on("connection", function(socket) {
 });
 
 function genSamplePost() {
-  titles = ["My Post","Test Post","Greeting","New Status","My Day","New Entry","Blog Post","Reporting In"];
-  names = ["Mitchell","Maggie","Abhusha","John","Carol","Mark","Harry","Jessie","Mark","Adrian","Bob","Tony","Sarah"];
-  bodies = ["Nice day today.","I love AIP!","Anyone out there?","Work is hard...","Just testing things out.",
-  "Greetings everyone!","Check this out...","I'm the best :)","Oops..."];
-  sources = ["Facebook","Twitter","News.com","Mag.com","Up2Date","Instagram","Chatter.com","Tumblr"];
-  dates = ["21/3/18","15/4/18","7/5/18","27/7/18","1/8/18","19/9/18","14/3/18","17/4/18","29/5/18","5/7/18","6/8/18","8/9/18"];
+  titles = [
+    "My Post",
+    "Test Post",
+    "Greeting",
+    "New Status",
+    "My Day",
+    "New Entry",
+    "Blog Post",
+    "Reporting In"
+  ];
+  names = [
+    "Mitchell",
+    "Maggie",
+    "Abhusha",
+    "John",
+    "Carol",
+    "Mark",
+    "Harry",
+    "Jessie",
+    "Mark",
+    "Adrian",
+    "Bob",
+    "Tony",
+    "Sarah"
+  ];
+  bodies = [
+    "Nice day today.",
+    "I love AIP!",
+    "Anyone out there?",
+    "Work is hard...",
+    "Just testing things out.",
+    "Greetings everyone!",
+    "Check this out...",
+    "I'm the best :)",
+    "Oops..."
+  ];
+  sources = [
+    "Facebook",
+    "Twitter",
+    "News.com",
+    "Mag.com",
+    "Up2Date",
+    "Instagram",
+    "Chatter.com",
+    "Tumblr"
+  ];
+  dates = [
+    "21/3/18",
+    "15/4/18",
+    "7/5/18",
+    "27/7/18",
+    "1/8/18",
+    "19/9/18",
+    "14/3/18",
+    "17/4/18",
+    "29/5/18",
+    "5/7/18",
+    "6/8/18",
+    "8/9/18"
+  ];
 
-  i = Math.random().toString(36).slice(2);
+  i = Math.random()
+    .toString(36)
+    .slice(2);
   t = titles[Math.floor(Math.random() * titles.length)];
   n = names[Math.floor(Math.random() * names.length)];
   b = bodies[Math.floor(Math.random() * bodies.length)];
@@ -44,7 +98,6 @@ function genSamplePost() {
 }
 setInterval(genSamplePost, 3000);
 
-
 // --------------------------------------------------------
 // EXPRESS
 // --------------------------------------------------------
@@ -58,7 +111,15 @@ var m = db.user_db(true, true);
 
 // Log connections
 app.use((req, res, next) => {
-  say("Recieved "+req.method+" request to "+req.originalUrl+" from "+req.headers.host+".");
+  say(
+    "Recieved " +
+      req.method +
+      " request to " +
+      req.originalUrl +
+      " from " +
+      req.headers.host +
+      "."
+  );
   next();
 });
 
@@ -84,16 +145,15 @@ app.get("/api/prefs/:username", jsonparser, (req, res) => {
   if (username) {
     db.user_get_prefs(m, username, (result, success, errmsg) => {
       if (success) {
-        res.json({success: true, error: null, result: result});
+        res.json({ success: true, error: null, result: result });
       } else {
-        res.json({success: false, error: errmsg, result: null});
+        res.json({ success: false, error: errmsg, result: null });
       }
     });
   } else {
     res.sendStatus(400);
   }
 });
-
 
 // ------------------
 // POST-ing resources
@@ -104,11 +164,11 @@ app.post("/api", jsonparser, (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
   if (username && password) {
-    db.user_add(m, username, password, (success, errmsg)=>{
+    db.user_add(m, username, password, (success, errmsg) => {
       if (success) {
-        res.json({success: true, error: null});
+        res.json({ success: true, error: null });
       } else {
-        res.json({success: false, error: errmsg});
+        res.json({ success: false, error: errmsg });
       }
     });
   } else {
@@ -121,11 +181,11 @@ app.post("/api/creds", jsonparser, (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
   if (username && password) {
-    db.user_check(m, username, password, (result, success, errmsg)=>{
+    db.user_check(m, username, password, (result, success, errmsg) => {
       if (success) {
-        res.json({success: true, error: null, result: result});
+        res.json({ success: true, error: null, result: result });
       } else {
-        res.json({success: false, error: errmsg, result: null});
+        res.json({ success: false, error: errmsg, result: null });
       }
     });
   } else {
@@ -139,7 +199,6 @@ app.get("/api/prefs", (req, res) => {
   res.sendStatus(501);
 });
 
-
 // --------------------
 // DELETE-ing resources
 // --------------------
@@ -152,25 +211,27 @@ app.delete(["/api", "/api/creds", "/api/prefs"], jsonparser, (req, res) => {
     db.user_check(m, username, password, (result, success, errmsg) => {
       if (success) {
         if (result) {
-          db.user_delete(m, username, (del_success, del_errmsg)=>{
+          db.user_delete(m, username, (del_success, del_errmsg) => {
             if (del_success) {
-              res.json({success: true, error: null});
+              res.json({ success: true, error: null });
             } else {
-              res.json({success: false, error: del_errmsg});
+              res.json({ success: false, error: del_errmsg });
             }
           });
         } else {
-          res.json({success: false, error: "Provided username and password did not match"});
+          res.json({
+            success: false,
+            error: "Provided username and password did not match"
+          });
         }
       } else {
-        res.json({success: false, error: errmsg});
+        res.json({ success: false, error: errmsg });
       }
     });
   } else {
     res.sendStatus(400);
   }
 });
-
 
 // --------------------------
 // PUT-ing (update) resources
@@ -190,18 +251,26 @@ app.put("/api/creds", jsonparser, (req, res) => {
     db.user_check(m, username, old_password, (result, success, errmsg) => {
       if (success) {
         if (result) {
-          db.user_update_creds(m, username, new_password, (success_new, errmsg_new) => {
-            if (success_new) {
-              res.send({success: true, error: null});
-            } else {
-              res.send({success: false, error: errmsg_new});
+          db.user_update_creds(
+            m,
+            username,
+            new_password,
+            (success_new, errmsg_new) => {
+              if (success_new) {
+                res.send({ success: true, error: null });
+              } else {
+                res.send({ success: false, error: errmsg_new });
+              }
             }
-          });
+          );
         } else {
-          res.send({success: false, error: "Provided username and password did not match"});
+          res.send({
+            success: false,
+            error: "Provided username and password did not match"
+          });
         }
       } else {
-        res.send({success: false, error: errmsg});
+        res.send({ success: false, error: errmsg });
       }
     });
   } else {
@@ -215,16 +284,15 @@ app.put("/api/prefs", jsonparser, (req, res) => {
   if (username && new_tags) {
     db.user_update_prefs(m, username, new_tags, (success, errmsg) => {
       if (success) {
-        res.send({success: true, error: null});
+        res.send({ success: true, error: null });
       } else {
-        res.send({success: false, error: errmsg});
+        res.send({ success: false, error: errmsg });
       }
     });
   } else {
     res.sendStatus(400);
   }
 });
-
 
 // -----
 // OTHER
