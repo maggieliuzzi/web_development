@@ -48,7 +48,7 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
-      fetch(g.HOSTNAME + g.SERVERPORT + "/api/creds", {
+      fetch("http://" + g.HOSTNAME + g.SERVERPORT + "/api/creds", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -98,12 +98,13 @@ export default class Login extends Component {
           </div>
           <br />
           <input type="submit" value="Sign In" />
-          <div class="page-newAccountArea">
+          <br /><br />
+          <div className="page-newAccountArea">
             <p>
               <Link to="/newaccount">Create New Account</Link>
             </p>
           </div>
-          <p>It's Free and always will be. </p>
+          <p>It's free and always will be. </p>
         </form>
       </div>
     );

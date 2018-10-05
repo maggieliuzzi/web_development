@@ -63,7 +63,7 @@ export default class Login extends Component {
     const isValid = this.validate();
     if (isValid) {
       this.setState({ nameError: "", emailError: "", passwordError: "" });
-      fetch(g.HOSTNAME + g.SERVERPORT + "/api", {
+      fetch("http://" + g.HOSTNAME + g.SERVERPORT + "/api", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -80,13 +80,6 @@ export default class Login extends Component {
         .then(msg => {
           if (msg.success === true) {
             browserHistory.push("/dashboard");
-            /*<Route
-              exact
-              path="/"
-              render={() => <Redirect to="/dashboard" />}
-            />;
-            */
-            //this.setState({ redirect: true });
           }
           console.log(JSON.stringify(msg));
         });

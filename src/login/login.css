@@ -1,7 +1,5 @@
 .page-newAccountArea {
-  width: 1350px;
-  height: 40px;
-  padding: 10px;
+  width: 100%;
   margin: 0;
   align-self: center;
   border: 1px solid blue;
