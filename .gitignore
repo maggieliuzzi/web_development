@@ -15,12 +15,10 @@
 /db
 
 # environment variables
-app-env
-app-env.env
-server/app-env.js
-app_env
+app_env.env
 server/app_env.env
 app_env.js
+.env
 *.env
 
 # misc

@@ -1,3 +1,4 @@
+require('dotenv').config();
 module.exports = {
   consumer_key:         process.env.consumer_key, // instead of consumer_key: "jasaskdjakls"
   consumer_secret:      process.env.consumer_secret,
