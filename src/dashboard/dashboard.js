@@ -4,18 +4,10 @@ import './dashboard.css';
 import { HOSTNAME, SERVERPORT} from "../global";
 import { AuthenticationContext, AuthCheck } from '../authentication';
 
-var twitter = require('../../server/twitterAPI');
-var news = require('../../server/newsAPI');
-
-T = twitter.twitter_conn();
-twitter.twitter_retrieve(T);
-N = news.news_conn();
-post = news.news_retrieve_topHeadlines(N);
-
 var socket = io("http://"+HOSTNAME+SERVERPORT);
 
 function subscribeSamples(cb) {
-	socket.on('samplePost',(data) => {
+	socket.on('receivePosts',(data) => {
 		cb(data);
 	});
 }
@@ -26,9 +18,12 @@ class NewsList extends Component {
 		this.state = {
 			newsposts: []
 		}
+		socket.emit("loadPosts");
 		subscribeSamples((data) => {
 			var currentlist = this.state.newsposts;
-			currentlist.unshift(data);
+			for (var i=0; i<data.length; i++) {
+				currentlist.unshift(data[i]);
+			}
 			var a = currentlist.slice(0,5);
 			this.setState({newsposts: a});
 		});
@@ -37,7 +32,7 @@ class NewsList extends Component {
 	makeNewsList() {
 		var listdom = this.state.newsposts.map((post) =>
 			<div key={post.id} className="dashboard-newspost">
-				<p><b>{post.title}</b><br />{post.content}<br /><i>Posted by {post.author} from {post.source} on {post.posted}</i><br /></p>
+				<p><b>{post.title}</b><br />{post.content}<br /><i>Post by {post.author} on {post.source}; {post.posted};</i><br /></p>
 			</div>
 		);
 		return listdom

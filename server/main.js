@@ -1,9 +1,10 @@
 var express = require("express");
 var app = express();
 var http = require("http").Server(app);
-var io = require("socket.io")(http);
+var io = require("socket.io")(http, { origins: '*:*'});
 var bodyParser = require("body-parser");
 var cors = require('cors');
+var twitter = require("./twitterAPI");
 
 function say(text) {
   console.log("\x1b[31;1m%s\x1b[0m", "Server: " + text);
@@ -14,90 +15,16 @@ function say(text) {
 // --------------------------------------------------------
 
 io.on("connection", function(socket) {
-  say("Socket connection detected.");
+  say("Socket connection established.");
+
+  socket.on("loadPosts", (data) => {
+    T = twitter.twitter_conn();
+    twitter.twitter_retrieve(T, 'Elon Musk', (results) => {
+      socket.emit('receivePosts', results);
+    });
+  });
 });
 
-function genSamplePost() {
-  titles = [
-    "My Post",
-    "Test Post",
-    "Greeting",
-    "New Status",
-    "My Day",
-    "New Entry",
-    "Blog Post",
-    "Reporting In"
-  ];
-  names = [
-    "Mitchell",
-    "Maggie",
-    "Abhusha",
-    "John",
-    "Carol",
-    "Mark",
-    "Harry",
-    "Jessie",
-    "Mark",
-    "Adrian",
-    "Bob",
-    "Tony",
-    "Sarah"
-  ];
-  bodies = [
-    "Nice day today.",
-    "I love AIP!",
-    "Anyone out there?",
-    "Work is hard...",
-    "Just testing things out.",
-    "Greetings everyone!",
-    "Check this out...",
-    "I'm the best :)",
-    "Oops..."
-  ];
-  sources = [
-    "Facebook",
-    "Twitter",
-    "News.com",
-    "Mag.com",
-    "Up2Date",
-    "Instagram",
-    "Chatter.com",
-    "Tumblr"
-  ];
-  dates = [
-    "21/3/18",
-    "15/4/18",
-    "7/5/18",
-    "27/7/18",
-    "1/8/18",
-    "19/9/18",
-    "14/3/18",
-    "17/4/18",
-    "29/5/18",
-    "5/7/18",
-    "6/8/18",
-    "8/9/18"
-  ];
-
-  i = Math.random()
-    .toString(36)
-    .slice(2);
-  t = titles[Math.floor(Math.random() * titles.length)];
-  n = names[Math.floor(Math.random() * names.length)];
-  b = bodies[Math.floor(Math.random() * bodies.length)];
-  s = sources[Math.floor(Math.random() * sources.length)];
-  d = dates[Math.floor(Math.random() * dates.length)];
-
-  io.emit("samplePost", {
-    id: i,
-    title: t,
-    content: b,
-    posted: d,
-    author: n,
-    source: s
-  });
-}
-setInterval(genSamplePost, 3000);
 
 // --------------------------------------------------------
 // EXPRESS
