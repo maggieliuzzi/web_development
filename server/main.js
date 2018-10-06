@@ -5,6 +5,8 @@ var io = require("socket.io")(http, { origins: '*:*'});
 var bodyParser = require("body-parser");
 var cors = require('cors');
 var twitter = require("./twitterAPI");
+var news = require("./newsAPI");
+var u = require("./utils");
 
 function say(text) {
   console.log("\x1b[31;1m%s\x1b[0m", "Server: " + text);
@@ -14,13 +16,19 @@ function say(text) {
 // SOCKET.IO
 // --------------------------------------------------------
 
+var T = twitter.twitter_conn();
+var newsapi = news.news_conn();
+const KEYWORD = "Google";
+
 io.on("connection", function(socket) {
   say("Socket connection established.");
-
   socket.on("loadPosts", (data) => {
-    T = twitter.twitter_conn();
-    twitter.twitter_retrieve(T, 'Elon Musk', (results) => {
-      socket.emit('receivePosts', results);
+    twitter.twitter_retrieve(T, KEYWORD, (results_t) => {
+      news.news_retrieve_topHeadlines(newsapi, KEYWORD, (results_n) => {
+        results = [...results_t, ...results_n]
+        shuffled = u.randomSubset(results, results.length);
+        socket.emit('receivePosts', shuffled);
+      });
     });
   });
 });

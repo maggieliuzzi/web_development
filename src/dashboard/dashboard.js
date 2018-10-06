@@ -24,7 +24,7 @@ class NewsList extends Component {
 			for (var i=0; i<data.length; i++) {
 				currentlist.unshift(data[i]);
 			}
-			var a = currentlist.slice(0,5);
+			var a = currentlist.slice(0,6);
 			this.setState({newsposts: a});
 		});
 	}

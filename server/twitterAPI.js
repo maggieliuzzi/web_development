@@ -22,7 +22,6 @@ function twitter_retrieve(T, keyword, callback = (results) => {}) {
                 source: "Twitter"};
             tweet_array.push(tweet_object);
         }
-        console.log(tweet_array);
         callback(tweet_array);
     });
 }
