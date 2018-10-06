@@ -4,6 +4,14 @@ import './dashboard.css';
 import { HOSTNAME, SERVERPORT} from "../global";
 import { AuthenticationContext, AuthCheck } from '../authentication';
 
+var twitter = require('../../server/twitterAPI');
+var news = require('../../server/newsAPI');
+
+T = twitter.twitter_conn();
+twitter.twitter_retrieve(T);
+N = news.news_conn();
+post = news.news_retrieve_topHeadlines(N);
+
 var socket = io("http://"+HOSTNAME+SERVERPORT);
 
 function subscribeSamples(cb) {
