@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import './dashboard.css';
+import { HOSTNAME, SERVERPORT} from "../global";
+import { AuthenticationContext, AuthCheck } from '../authentication';
 
-var socket = io('http://localhost:3001');
+var socket = io("http://"+HOSTNAME+SERVERPORT);
 
 function subscribeSamples(cb) {
 	socket.on('samplePost',(data) => {
@@ -46,6 +48,11 @@ export default class Dashboard extends Component {
   render() {
     return (
 		<div className="page-dashboard">
+			<AuthenticationContext.Consumer>
+				{({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
+					<AuthCheck isAuthenticated={isAuthenticated}/>
+				)}
+			</AuthenticationContext.Consumer>
 		  <NewsList/>
 		</div>
     );

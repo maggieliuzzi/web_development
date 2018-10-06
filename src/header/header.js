@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
+import { AuthenticationContext } from '../authentication';
 import './header.css';
+
+function DashboardLink() {
+  return (
+    <Link to="/dashboard">Dashboard</Link>
+  )
+}
+
+function SettingsLink() {
+  return (
+    <Link to="/settings">Settings</Link>
+  )
+}
 
 export default class Header extends Component {
   render() {
     return (
 		<div className="site-header">
-			<p><Link to="/dashboard">Dashboard</Link> - <Link to="/login">Login</Link> - <Link to="/settings">Settings</Link> - <Link to="/newaccount">Create New Account</Link></p>
+      <AuthenticationContext.Consumer>
+        {({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
+          isAuthenticated ? <span><DashboardLink /> - <SettingsLink /> - Logged in as: {AuthenticatedName} (<Link to="/login" onClick={unAuthenticate}>Log Out</Link>)</span> : null
+        )}
+      </AuthenticationContext.Consumer>
 		</div>
     );
   }

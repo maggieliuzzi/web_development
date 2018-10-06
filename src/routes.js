@@ -8,11 +8,12 @@ import Settings from './settings/settings.js';
 import CreateNewAccount from './createnewaccount/createnewaccount.js';
 
 export default (
-  <Route path="/" component={App}>
-    <IndexRoute component={Login} />
-	<Route path="/dashboard" component={Dashboard} />
-	<Route path="/login" component={Login} />
-    <Route path="/settings" component={Settings} />
-	<Route path="/newaccount" component={CreateNewAccount} />
+  <Route path="/" component={App}>  
+      <IndexRoute component={Login} />
+      <Route path="/login" component={Login} />
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/settings" component={Settings} />
+      <Route path="/newaccount" component={CreateNewAccount} />
   </Route>
 );
+

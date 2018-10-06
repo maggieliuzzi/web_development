@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import "./login.css";
-import g from "../global";
+import { HOSTNAME, SERVERPORT } from "../global";
 import { Link } from "react-router";
+import { browserHistory } from "react-router";
+import { AuthenticationContext, AlreadyAuthCheck } from '../authentication';
 
-export default class Login extends Component {
+class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "",
       password: "",
       nameError: "",
-      passwordError: ""
+      passwordError: "",
+      loginError: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,7 +21,7 @@ export default class Login extends Component {
 
   handleChange(event) {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.value;
     const name = target.name;
 
     this.setState({
@@ -48,7 +51,7 @@ export default class Login extends Component {
     event.preventDefault();
     const isValid = this.validate();
     if (isValid) {
-      fetch("http://" + g.HOSTNAME + g.SERVERPORT + "/api/creds", {
+      fetch("http://" + HOSTNAME + SERVERPORT + "/api/creds", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -59,19 +62,29 @@ export default class Login extends Component {
           password: this.state.password
         })
       })
-        .then(res => {
-          return res.json();
-        })
-        .then(msg => {
-          console.log(JSON.stringify(msg));
-        });
+      .then(res => {
+        return res.json();
+      })
+      .then(msg => {
+        if (msg.success === true) {
+          if (msg.result === true) {
+            this.setState({loginError: ""})
+            this.props.Authenticate();
+            this.props.setAuthenticatedName(this.state.username);
+            browserHistory.push("/dashboard");
+          } else {
+            this.setState({loginError: "Username and password do not match."})
+          }
+        } else {
+          this.setState({loginError: "An error occured: "+msg.error})
+        }
+        console.log(JSON.stringify(msg));
+      });
     }
   }
 
   render() {
     return (
-      <div className="page-login">
-        <p>This is the login page!</p>
         <form onSubmit={this.handleSubmit}>
           Username:
           <br />
@@ -96,6 +109,9 @@ export default class Login extends Component {
           <div style={{ fontSize: 14, color: "red" }}>
             {this.state.passwordError}
           </div>
+          <div style={{ fontSize: 14, color: "red" }}>
+            {this.state.loginError}
+          </div>
           <br />
           <input type="submit" value="Sign In" />
           <br /><br />
@@ -106,6 +122,23 @@ export default class Login extends Component {
           </div>
           <p>It's free and always will be. </p>
         </form>
+    );
+  }
+}
+
+export default class Login extends Component {
+  render() {
+    return (
+      <div className="page-login">
+        <p>This is the login page!</p>
+        <AuthenticationContext.Consumer>
+          {({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
+            <span>
+              <AlreadyAuthCheck isAuthenticated={isAuthenticated}/>
+              <LoginForm Authenticate={Authenticate} setAuthenticatedName={setAuthenticatedName}/>
+            </span>
+          )}
+        </AuthenticationContext.Consumer>
       </div>
     );
   }

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import "./createnewaccount.css";
-import g from "../global";
+import { HOSTNAME, SERVERPORT } from "../global";
 import { browserHistory } from "react-router";
+import { AuthenticationContext, AlreadyAuthCheck } from '../authentication';
 
-export default class Login extends Component {
+class NewAccountForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,8 +14,7 @@ export default class Login extends Component {
       nameError: "",
       emailError: "",
       passwordError: "",
-      totalError: "",
-      redirect: false
+      accountError: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,7 +22,7 @@ export default class Login extends Component {
 
   handleChange(event) {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.value;
     const name = target.name;
 
     this.setState({
@@ -63,7 +63,7 @@ export default class Login extends Component {
     const isValid = this.validate();
     if (isValid) {
       this.setState({ nameError: "", emailError: "", passwordError: "" });
-      fetch("http://" + g.HOSTNAME + g.SERVERPORT + "/api", {
+      fetch("http://" + HOSTNAME + SERVERPORT + "/api", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -74,60 +74,77 @@ export default class Login extends Component {
           password: this.state.password
         })
       })
-        .then(res => {
-          return res.json();
-        })
-        .then(msg => {
-          if (msg.success === true) {
-            browserHistory.push("/dashboard");
-          }
-          console.log(JSON.stringify(msg));
-        });
+      .then(res => {
+        return res.json();
+      })
+      .then(msg => {
+        if (msg.success === true) {
+          browserHistory.push("/login");
+        } else {
+          this.setState({accountError: "An error occured: "+msg.error})
+        }
+        console.log(JSON.stringify(msg));
+      });
     }
   }
 
   render() {
     return (
+      <form onSubmit={this.handleSubmit}>
+        Username : <br />
+        <input
+          type="text"
+          name="username"
+          value={this.state.username}
+          onChange={this.handleChange}
+        />
+        <div style={{ fontSize: 14, color: "red" }}>
+          {this.state.nameError}
+        </div>
+        <br />
+        Password: <br />
+        <input
+          type="password"
+          name="password"
+          value={this.state.password}
+          onChange={this.handleChange}
+        />
+        <div style={{ fontSize: 14, color: "red" }}>
+          {this.state.passwordError}
+        </div>
+        <br />
+        Email: <br />
+        <input
+          type="text"
+          name="email"
+          value={this.state.email}
+          onChange={this.handleChange}
+        />
+        <div style={{ fontSize: 14, color: "red" }}>
+          {this.state.emailError}
+        </div>
+        <div style={{ fontSize: 14, color: "red" }}>
+          {this.state.accountError}
+        </div>
+        <br />
+        <input type="submit" value="Sign Up" />
+      </form>
+    );
+  }
+}
+
+export default class CreatNewAccount extends Component {
+  render () {
+    return (
       <div className="page-newAccount">
         <p>Create New Account !!</p>
-
-        <form onSubmit={this.handleSubmit}>
-          Username : <br />
-          <input
-            type="text"
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-          />
-          <div style={{ fontSize: 14, color: "red" }}>
-            {this.state.nameError}
-          </div>
-          <br />
-          Password: <br />
-          <input
-            type="password"
-            name="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-          />
-          <div style={{ fontSize: 14, color: "red" }}>
-            {this.state.passwordError}
-          </div>
-          <br />
-          Email: <br />
-          <input
-            type="text"
-            name="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
-          <div style={{ fontSize: 14, color: "red" }}>
-            {this.state.emailError}
-          </div>
-          <br />
-          <input type="submit" value="Sign Up" />
-        </form>
-      </div>
-    );
+        <AuthenticationContext.Consumer>
+          {({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
+            <AlreadyAuthCheck isAuthenticated={isAuthenticated}/>
+          )}
+        </AuthenticationContext.Consumer>
+        <NewAccountForm/>
+    </div>
+    )
   }
 }
