@@ -15,9 +15,6 @@
 /db
 
 # environment variables
-app_env.env
-server/app_env.env
-app_env.js
 .env
 *.env
 
