@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./createnewaccount.css";
-import { IndexRoute, Route, Redirect } from "react-router";
+import g from "../global";
 import { browserHistory } from "react-router";
 
 export default class Login extends Component {
@@ -63,11 +63,7 @@ export default class Login extends Component {
     const isValid = this.validate();
     if (isValid) {
       this.setState({ nameError: "", emailError: "", passwordError: "" });
-      var hostname = window.location.hostname;
-      var endpoint = "/api";
-      var port = "3001";
-      var url = "http://" + hostname + ":" + port + endpoint;
-      fetch(url, {
+      fetch("http://" + g.HOSTNAME + g.SERVERPORT + "/api", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -84,13 +80,6 @@ export default class Login extends Component {
         .then(msg => {
           if (msg.success === true) {
             browserHistory.push("/dashboard");
-            /*<Route
-              exact
-              path="/"
-              render={() => <Redirect to="/dashboard" />}
-            />;
-            */
-            //this.setState({ redirect: true });
           }
           console.log(JSON.stringify(msg));
         });

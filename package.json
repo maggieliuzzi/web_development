@@ -9,7 +9,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "mongodb": "^3.1.4",
-    "mongoose": "^5.2.9",
+    "mongoose": "^5.2.8",
     "nodemon": "^1.18.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -23,7 +23,11 @@
   "scripts": {
     "client": "react-scripts start",
     "server": "nodemon ./server/main.js",
-    "start": "concurrently \"npm run client\" \"npm run server\"",
-    "build": "react-scripts build"
+    "db": "echo Did you mean \"npm run db-bat\" (windows) or \"npm run db-sh\" (unix)?",
+    "db-bat": "scripts\\start_db.bat",
+    "db-sh": "scripts/start_db.sh",
+    "start": "echo Did you mean \"npm run start-bat\" (windows) or \"npm run start-sh\" (unix)?",
+    "start-bat": "concurrently \"npm run db-bat\" \"npm run client\" \"npm run server\"",
+    "start-sh": "concurrently \"npm run db-sh\" \"npm run client\" \"npm run server\""
   }
 }

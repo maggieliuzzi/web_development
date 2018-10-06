@@ -26,7 +26,7 @@ class NewsList extends Component {
 	
 	makeNewsList() {
 		var listdom = this.state.newsposts.map((post) =>
-			<div key={post.id} class="dashboard-newspost">
+			<div key={post.id} className="dashboard-newspost">
 				<p><b>{post.title}</b><br />{post.content}<br /><i>Posted by {post.author} from {post.source} on {post.posted}</i><br /></p>
 			</div>
 		);
@@ -35,7 +35,7 @@ class NewsList extends Component {
 	
 	render() {
 		return(
-			<div class="dashboard-newslist">
+			<div className="dashboard-newslist">
 				{this.makeNewsList()}
 			</div>
 		);
@@ -45,7 +45,7 @@ class NewsList extends Component {
 export default class Dashboard extends Component {
   render() {
     return (
-		<div class="page-dashboard">
+		<div className="page-dashboard">
 		  <NewsList/>
 		</div>
     );

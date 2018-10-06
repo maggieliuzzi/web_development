@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
-import './settings.css';
+import React, { Component } from "react";
+import "./settings.css";
+import g from "../global";
 
 export default class Settings extends Component {
   render() {
     return (
-		<div class='page-settings'>
-		  <p>This is the settings page!</p>
-		  <form>
-			<b>Profile Settings</b>
-			<br/><br/>Setting 1: <input type="text"/>
-			<br/>Setting 2: <input type="checkbox"/>
-			<br/>Setting 3: <input type="checkbox"/>
-			<br/><br/><input type="submit" value="Submit"/>
-		  </form>
-		</div>
+      <div class="page-settingHeader">
+        <p>This is the settings page!</p>
+        <form>
+          <b>Profile Settings</b>
+        </form>
+
+        <div class="page-settingBody">
+          <p>Re-confirm Your Details before changes !!</p>
+        </div>
+      </div>
     );
   }
 }
