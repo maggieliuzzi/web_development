@@ -20,3 +20,6 @@ function twitter_retrieve(T) {
 }
 
 module.exports = {'twitter_conn':twitter_conn,'twitter_retrieve':twitter_retrieve}
+
+// T = twitter_conn();
+// twitter_retrieve(T);
