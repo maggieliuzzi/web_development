@@ -2,7 +2,15 @@
     background-color:green;
 }
 
+#post_div2 {
+    background-color:blue;
+}
+
 #dashboard_news_div {
     margin:0 auto;
     width:60%;
+}
+
+#dashboard_page {
+    background-color:pink;
 }
