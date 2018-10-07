@@ -101,11 +101,30 @@ class UpdateForm extends Component {
     this.state = {
       UpdateError: "",
       old_password: "",
-      new_password: ""
+      new_password: "",
+      old_passwordError: "",
+      new_passwordError: ""
     };
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+
+  //-------------------------------------------------------------------
+  //validation for UpdateForm
+  //-------------------------------------------------------------------
+
+  /*validate = () => {
+    let old_passwordError = "";
+    let new_passwordError = "";
+
+    if (!this.state.old_password) old_passwordError = "Mandatory field";
+    if (!this.state.new_password) new_passwordError = "Mandatory field";
+    if (old_passwordError || new_passwordError) {
+      this.setState({ old_passwordError, new_passwordError });
+      return false;
+    }
+    return true;
+  };*/
   handleChange(event) {
     const target = event.target;
     const value = target.value;
@@ -118,6 +137,7 @@ class UpdateForm extends Component {
   handleUpdate(event) {
     // Code for when the user clicks button to update their credentials
     event.preventDefault();
+
     var username = this.props.AuthenticatedName;
     console.log(this.props.AuthenticatedName);
 
