@@ -18,20 +18,31 @@ function say(text) {
 
 var T = twitter.twitter_conn();
 var newsapi = news.news_conn();
-const KEYWORD = "Google AND Elon Musk";
+const KEYWORD = "Google OR Elon Musk";
+
+// Connects to the MongoDB database
+var db = require("./db");
+var m = db.user_db(false, true);
 
 io.on("connection", function(socket) {
   say("Socket connection established.");
-  socket.on("loadPosts", data => {
-    twitter.twitter_retrieve(T, KEYWORD, results_t => {
-      news.news_retrieve_topHeadlines(newsapi, KEYWORD, results_n => {
-        results = [...results_t, ...results_n];
-        shuffled = u.randomSubset(results, results.length);
-        socket.emit("receivePosts", shuffled);
+  socket.on("loadPosts", data => { // This executes when the server receives a request from the client for some news posts
+    // Insert a call for db.user_get_prefs in this stack of callbacks, between socket.on and twitter.twitter_retrieve
+    db.user_get_prefs(m, data.username, (result) => {
+      // More code to come
+      twitter.twitter_retrieve(T, KEYWORD, results_t => {
+        news.news_retrieve_topHeadlines(newsapi, KEYWORD, results_n => {
+          results = [...results_t, ...results_n];
+          shuffled = u.randomSubset(results, results.length);
+          socket.emit("receivePosts", shuffled);
+        });
       });
     });
+    console.log(result); // Check if correctly // ~ {username: <username>, tags: [<tag1>,<tag2>,<tag3>,...]} (array of tags)
+    // Turn array of tags into query string (for "tag1 OR tag2 OR tag3..." // Try looping against result.tags and concatenating keywords to a string with "OR" between them
+    // keywords = // Final string, which will be the keywords for twitter.twitter_retrieve and news.news_retrieve_topHeadlines
   });
-});
+}); // Check if one too many });
 
 // --------------------------------------------------------
 // EXPRESS
@@ -39,10 +50,6 @@ io.on("connection", function(socket) {
 
 // Enables body-parser to parse JSON streams
 jsonparser = bodyParser.json();
-
-// Connects to the MongoDB database
-var db = require("./db");
-var m = db.user_db(false, true);
 
 // Enable CORS on server
 app.use(cors());

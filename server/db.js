@@ -192,7 +192,7 @@ function user_add(models, username, password, callback = (success, errmsg)=>{}) 
           say("Successfully hashed "+username+"'s password.");
           db_add(models.usercreds,{username: username, password: hash}, (succb)=>{
             db_add(models.userprefs,{username: username, tags: [""]}, (succc)=>{
-              if (succa && succb) {
+              if (succb && succc) {
                 say("Successfully added user "+username+" to the database.", true)
                 callback(true, "No error");
               } else {
