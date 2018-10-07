@@ -12,6 +12,10 @@ function say(text) {
   console.log("\x1b[31;1m%s\x1b[0m", "Server: " + text);
 }
 
+// Connects to the MongoDB database
+var db = require("./db");
+var m = db.user_db(true, true);
+
 // --------------------------------------------------------
 // SOCKET.IO
 // --------------------------------------------------------
@@ -19,27 +23,21 @@ function say(text) {
 var T = twitter.twitter_conn();
 var newsapi = news.news_conn();
 
-// Connects to the MongoDB database
-var db = require("./db");
-var m = db.user_db(false, true);
-
 io.on("connection", function(socket) {
   say("Socket connection established.");
   socket.on("loadPosts", data => {
-    // This executes when the server receives a request from the client for some news posts
-    // Insert a call for db.user_get_prefs in this stack of callbacks, between socket.on and twitter.twitter_retrieve
     db.user_get_prefs(m, data.username, (result) => {
-      console.log(data.username);
+      var tags = result.tags;
       var q_string = "";
-      for (var i=0; i<result.length; i++) {
-        if (i = result.length-1) {
-          var string_part = result[i]
+      var string_part = "";
+      for (var i=0; i<tags.length; i++) {
+        if (i == tags.length-1) {
+          string_part = tags[i];
         } else {
-          var string_part = result[i]+" OR"
+          string_part = tags[i]+" OR ";
         }
-        q_string.concat(string_part)
+        q_string = q_string.concat(string_part);
       }
-      say(q_string);
       twitter.twitter_retrieve(T, q_string, results_t => {
         news.news_retrieve_everything(newsapi, q_string, results_n => {
           results = [...results_t, ...results_n];

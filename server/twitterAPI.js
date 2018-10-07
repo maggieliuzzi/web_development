@@ -12,7 +12,6 @@ function twitter_retrieve(T, keyword, callback = (results) => {}) {
     T.get('search/tweets', { q: keyword, count: 5, lang: 'en', result_type: 'popular'}, function(err, data, response) {
         var tweet_array = [];
         var tweets = data.statuses;
-        console.log(JSON.stringify(data));
         for (var i = 0; i < tweets.length; i++) {
             tweet_object = {
                 id: u.randomString(12),

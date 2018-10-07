@@ -84,7 +84,6 @@ class NewAccountForm extends Component {
           } else {
             this.setState({ accountError: "An error occured: " + msg.error });
           }
-          console.log(JSON.stringify(msg));
         });
     }
   }
@@ -103,7 +102,7 @@ class NewAccountForm extends Component {
         <br />
         Password: <br />
         <input
-          type="text"
+          type="password"
           name="password"
           value={this.state.password}
           onChange={this.handleChange}
@@ -143,7 +142,7 @@ export default class CreatNewAccount extends Component {
   render() {
     return (
       <div className="page-newAccount">
-        <p>Create New Account !!</p>
+        <p>Create new account...</p>
         <AuthenticationContext.Consumer>
           {({
             isAuthenticated,

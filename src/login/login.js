@@ -78,7 +78,6 @@ class LoginForm extends Component {
           } else {
             this.setState({ loginError: "An error occurred: " + msg.error });
           }
-          console.log(JSON.stringify(msg));
         });
     }
   }

@@ -3,8 +3,6 @@ import io from "socket.io-client";
 import "./dashboard.css";
 import { HOSTNAME, SERVERPORT } from "../global";
 import { AuthenticationContext, AuthCheck } from "../authentication";
-// import '../../server/utils.js'
-// Add dateConversion(post.posted)
 
 var socket = io("http://" + HOSTNAME + SERVERPORT);
 
@@ -20,7 +18,9 @@ class NewsList extends Component {
     this.state = {
       newsposts: []
     };
-    console.log(this.props.AuthenticatedName);
+  }
+
+  componentDidMount() {
     socket.emit("loadPosts", { username: this.props.AuthenticatedName });
     subscribeSamples(data => {
       var currentlist = this.state.newsposts;
@@ -72,11 +72,12 @@ export default class Dashboard extends Component {
             unAuthenticate,
             setAuthenticatedName
           }) => (
-            <AuthCheck isAuthenticated={isAuthenticated} />
-            // <NewsList AuthenticatedName={AuthenticatedName}/>
+            <span>
+              <AuthCheck isAuthenticated={isAuthenticated} />
+              <NewsList AuthenticatedName={AuthenticatedName} />
+            </span>
           )}
         </AuthenticationContext.Consumer>
-        <NewsList />
       </div>
     );
   }

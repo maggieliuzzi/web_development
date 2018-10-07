@@ -41,6 +41,7 @@ class TagForm extends Component {
     }
 
     if (new_tags !== "") {
+      console.log(new_tags);
       var username = this.props.AuthenticatedName;
       var fetch_url = "http://" + HOSTNAME + SERVERPORT + "/api/prefs";
       fetch(fetch_url, {
@@ -63,7 +64,6 @@ class TagForm extends Component {
         } else {
           this.setState({ TagError: "An error occured: " + msg.error });
         }
-        console.log(JSON.stringify(msg));
       });
     } else {
       this.setState({ TagError: "Please enter at least one tag."});
@@ -142,7 +142,6 @@ class UpdateForm extends Component {
     event.preventDefault();
 
     var username = this.props.AuthenticatedName;
-    console.log(this.props.AuthenticatedName);
 
     var fetch_url = "http://" + HOSTNAME + SERVERPORT + "/api/creds";
     fetch(fetch_url, {
@@ -162,7 +161,6 @@ class UpdateForm extends Component {
         return res.json();
       })
       .then(msg => {
-        console.log(JSON.stringify(msg));
         if (msg.success === true) {
           if (msg.result === true) {
             this.setState({ UpdateError: "" });
@@ -188,17 +186,19 @@ class UpdateForm extends Component {
         <p>To update your password, enter your new and old password below:</p>
         <form onSubmit={this.handleUpdate}>
           <table className="centered-table">
-            <tr>
-              <td>Old Password: </td>
-              <td><input type="password" name="old_password" value={this.state.old_password} onChange={this.handleChange}/></td>
-            </tr>
-            <tr>
-              <td>New Password: </td>
-              <td><input type="password" name="new_password" value={this.state.new_password} onChange={this.handleChange}/></td>
-            </tr>
-            <tr>
-              <td colSpan='2'><input id="update_pwd_button" type="submit" value="Update Password" onSubmit={this.handleUpdate}/></td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>Old Password: </td>
+                <td><input type="password" name="old_password" value={this.state.old_password} onChange={this.handleChange}/></td>
+              </tr>
+              <tr>
+                <td>New Password: </td>
+                <td><input type="password" name="new_password" value={this.state.new_password} onChange={this.handleChange}/></td>
+              </tr>
+              <tr>
+                <td colSpan='2'><input id="update_pwd_button" type="submit" value="Update Password" onSubmit={this.handleUpdate}/></td>
+              </tr>
+            </tbody>
           </table>
         </form>
       </div>
@@ -262,7 +262,6 @@ class DeleteForm extends Component {
         } else {
           this.setState({ DeleteError: "An error occured: " + msg.error });
         }
-        console.log(JSON.stringify(msg));
       });
   }
 
