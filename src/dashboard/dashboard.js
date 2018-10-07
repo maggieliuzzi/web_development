@@ -31,8 +31,8 @@ class NewsList extends Component {
 	
 	makeNewsList() {
 		var listdom = this.state.newsposts.map((post) =>
-			<div key={post.id} className="dashboard-newspost">
-				<p><b>{post.title}</b><br />{post.content}<br /><i>Post by {post.author} on {post.source}; {post.posted};</i><br /></p>
+			<div id="post_div" key={post.id} className="dashboard-newspost">
+				<p><b>{post.title}</b><br />{post.content}<br /><br /><i>Posted by {post.author} on {post.source} | {post.posted} {typeof(post.posted)}</i><br /></p>
 			</div>
 		);
 		return listdom
@@ -40,7 +40,7 @@ class NewsList extends Component {
 	
 	render() {
 		return(
-			<div className="dashboard-newslist">
+			<div id="dashboard_news_div" className="dashboard-newslist">
 				{this.makeNewsList()}
 			</div>
 		);
@@ -50,7 +50,7 @@ class NewsList extends Component {
 export default class Dashboard extends Component {
   render() {
     return (
-		<div className="page-dashboard">
+		<div id="dashboard_page" className="page-dashboard">
 			<AuthenticationContext.Consumer>
 				{({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
 					<AuthCheck isAuthenticated={isAuthenticated}/>
