@@ -1,4 +1,5 @@
 # Up2Date
+<<<<<<< HEAD
 
   This program is built as part of Assignment 3 for Advanced Internet Programming at the University of Technology, Sydney. Spring semester 2018.
 
@@ -107,3 +108,8 @@
   - Place all React-related files into /src/, place all server related files into /server/.
 
   - Regularly update the README to reflect changes in installation or execution.
+=======
+UTS Advanced Internet Programming 2018, Assignment 3
+
+
+>>>>>>> f7507061f4021e66cb096cf86bdd2d72dc89e689
