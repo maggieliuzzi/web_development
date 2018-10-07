@@ -33,11 +33,11 @@ class LoginForm extends Component {
     let passwordError = "";
 
     if (!this.state.username) {
-      nameError = "Mandatory field.";
+      nameError = "Mandatory field";
     }
 
     if (!this.state.password) {
-      passwordError = "Mandatory field.";
+      passwordError = "Mandatory field";
     }
 
     if (passwordError || nameError) {
@@ -94,7 +94,7 @@ class LoginForm extends Component {
             value={this.state.username}
             onChange={this.handleChange}
           />
-          <div style={{ fontSize: 14, color: "red" }}>
+          <div style={{ fontSize: 14, color: "#d80000" }}>
             {this.state.nameError}
           </div>
           <br />
@@ -106,10 +106,10 @@ class LoginForm extends Component {
             value={this.state.password}
             onChange={this.handleChange}
           />
-          <div style={{ fontSize: 14, color: "red" }}>
+          <div style={{ fontSize: 14, color: "#d80000" }}>
             {this.state.passwordError}
           </div>
-          <div style={{ fontSize: 14, color: "red" }}>
+          <div style={{ fontSize: 14, color: "#d80000" }}>
             {this.state.loginError}
           </div>
           <br />
@@ -120,7 +120,7 @@ class LoginForm extends Component {
               <Link to="/newaccount">Create New Account</Link>
             </p>
           </div>
-          <p>It's free and it will always be. </p>
+          <p>It's free and it always will be.</p>
         </form>
     );
   }

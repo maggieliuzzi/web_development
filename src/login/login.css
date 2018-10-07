@@ -1,3 +1,7 @@
+input, textarea {
+    background-color: #dfcaca;
+}
+
 #login_page {
     background-color: #c9dbda;
 }
@@ -18,7 +22,7 @@
 }
 
 #sign_in {
-    padding: 1%;
+    padding: 3%;
     background-color: #c9dbda;
     border-radius: 20%;
     font-weight: bold;
@@ -31,4 +35,3 @@
   align-self: center;
   text-decoration: none;
 }
-
