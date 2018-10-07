@@ -1,4 +1,4 @@
-input, textarea {
+input[type="text"], textarea {
     background-color: #dfcaca;
 }
 
