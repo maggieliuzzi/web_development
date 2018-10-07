@@ -65,12 +65,12 @@ class TagForm extends Component {
       <div name="settings-tags">
         <br />
         <p>
-          To update the tags you want to recieve news about, enter them below
-          (seperated by commas):
+          To update the keywords you want to see posts about, enter them below
+          (separated by commas):
         </p>
-        <input type="texta" name="tags" value={this.props.existing_tags} />
+        <input id="tags_input" type="texta" name="tags" value={this.props.existing_tags} />
         <br />
-        <input
+        <input id="update_tags_button"
           type="submit"
           value="Update Tags"
           onClick={this.handleTagSubmit}
@@ -129,11 +129,11 @@ class UpdateForm extends Component {
           browserHistory.push("/dashboard");
         } else {
           this.setState({
-            UpdateError: "Please resubmit valid Username and password"
+            UpdateError: "Please enter valid username and password"
           });
         }
       } else {
-        this.setState({ UpdateError: "An error occured: " + msg.error });
+        this.setState({ UpdateError: "An error occurred: " + msg.error });
       }
       console.log(JSON.stringify(msg));
     });
@@ -144,9 +144,10 @@ class UpdateForm extends Component {
       <div id="settings-update">
         <br />
         <p>
-          To update your account's password, enter your new password and old
+          To update your password, enter your new and old
           password below:
         </p>
+<<<<<<< HEAD
         <form onSubmit={this.handleUpdate}>
           Old Password:
           <input
@@ -155,6 +156,10 @@ class UpdateForm extends Component {
             value={this.state.old_password}
             onChange={this.handleChange}
           />
+=======
+        <form>
+          Old Password: <input id="old_pwd" type="password" name="oldpassword" />
+>>>>>>> a561ca01916e38f94520d327ea2ec694da5759ab
           <br />
           New Password:
           <input
@@ -164,7 +169,7 @@ class UpdateForm extends Component {
             onChange={this.handleChange}
           />
           <br />
-          <input
+          <input id="update_pwd_button"
             type="submit"
             value="Update Password"
             //SonSubmit={this.handleUpdate}
@@ -238,6 +243,7 @@ class DeleteForm extends Component {
       <div id="settings-delete">
         <br />
         <p>To completely delete your account, enter your password below:</p>
+<<<<<<< HEAD
         <form onSubmit={this.handleDelete}>
           Password :
           <input
@@ -246,8 +252,12 @@ class DeleteForm extends Component {
             value={this.state.password}
             onChange={this.handleChange}
           />
+=======
+        <form>
+          Password: <input type="password" name="password" />
+>>>>>>> a561ca01916e38f94520d327ea2ec694da5759ab
           <br />
-          <button type="submit" onClick={this.handleDelete}>
+          <button id="delete_account_button" type="submit" onClick={this.handleDelete}>
             Delete Account
           </button>
         </form>
@@ -259,27 +269,29 @@ class DeleteForm extends Component {
 export default class Settings extends Component {
   render() {
     return (
-      <div className="page-settings">
-        <p>This is the settings page!</p>
-        <AuthenticationContext.Consumer>
-          {({
-            isAuthenticated,
-            AuthenticatedName,
-            Authenticate,
-            unAuthenticate,
-            setAuthenticatedName
-          }) => (
-            <span>
-              <AuthCheck isAuthenticated={isAuthenticated} />
-              <TagForm AuthenticatedName={AuthenticatedName} />
-              <UpdateForm AuthenticatedName={AuthenticatedName} />
-              <DeleteForm
-                AuthenticatedName={AuthenticatedName}
-                unAuthenticate={unAuthenticate}
-              />
-            </span>
-          )}
-        </AuthenticationContext.Consumer>
+      <div id="settings_page" className="page-settings">
+        <div id="settings_form">
+            <p id="settings_header">Settings</p>
+            <AuthenticationContext.Consumer>
+              {({
+                isAuthenticated,
+                AuthenticatedName,
+                Authenticate,
+                unAuthenticate,
+                setAuthenticatedName
+              }) => (
+                <span>
+                  <AuthCheck isAuthenticated={isAuthenticated} />
+                  <TagForm AuthenticatedName={AuthenticatedName} />
+                  <UpdateForm AuthenticatedName={AuthenticatedName} />
+                  <DeleteForm
+                    AuthenticatedName={AuthenticatedName}
+                    unAuthenticate={unAuthenticate}
+                  />
+                </span>
+              )}
+            </AuthenticationContext.Consumer>
+        </div>
       </div>
     );
   }

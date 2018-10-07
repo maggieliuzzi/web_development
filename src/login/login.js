@@ -33,11 +33,11 @@ class LoginForm extends Component {
     let passwordError = "";
 
     if (!this.state.username) {
-      nameError = "Mandatory field.";
+      nameError = "Mandatory field";
     }
 
     if (!this.state.password) {
-      passwordError = "Mandatory field.";
+      passwordError = "Mandatory field";
     }
 
     if (passwordError || nameError) {
@@ -94,7 +94,7 @@ class LoginForm extends Component {
             value={this.state.username}
             onChange={this.handleChange}
           />
-          <div style={{ fontSize: 14, color: "red" }}>
+          <div style={{ fontSize: 14, color: "#d80000" }}>
             {this.state.nameError}
           </div>
           <br />
@@ -106,10 +106,10 @@ class LoginForm extends Component {
             value={this.state.password}
             onChange={this.handleChange}
           />
-          <div style={{ fontSize: 14, color: "red" }}>
+          <div style={{ fontSize: 14, color: "#d80000" }}>
             {this.state.passwordError}
           </div>
-          <div style={{ fontSize: 14, color: "red" }}>
+          <div style={{ fontSize: 14, color: "#d80000" }}>
             {this.state.loginError}
           </div>
           <br />
@@ -120,7 +120,7 @@ class LoginForm extends Component {
               <Link to="/newaccount">Create New Account</Link>
             </p>
           </div>
-          <p>It's free and always will be. </p>
+          <p>It's free and it always will be.</p>
         </form>
     );
   }
@@ -129,16 +129,19 @@ class LoginForm extends Component {
 export default class Login extends Component {
   render() {
     return (
-      <div className="page-login">
-        <p id="login_header">Login</p>
-        <AuthenticationContext.Consumer>
-          {({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
-            <span>
-              <AlreadyAuthCheck isAuthenticated={isAuthenticated}/>
-              <LoginForm Authenticate={Authenticate} setAuthenticatedName={setAuthenticatedName}/>
-            </span>
-          )}
-        </AuthenticationContext.Consumer>
+      <div id="login_page" className="page-login">
+        <div id="login_form">
+            <p id="login_header">Login</p>
+            <br />
+            <AuthenticationContext.Consumer>
+              {({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
+                <span>
+                  <AlreadyAuthCheck isAuthenticated={isAuthenticated}/>
+                  <LoginForm Authenticate={Authenticate} setAuthenticatedName={setAuthenticatedName}/>
+                </span>
+              )}
+            </AuthenticationContext.Consumer>
+        </div>
       </div>
     );
   }

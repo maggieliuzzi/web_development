@@ -15,7 +15,7 @@ function SettingsLink() {
 export default class Header extends Component {
   render() {
     return (
-      <div className="site-header">
+      <div id="top_menu" className="site-header">
         <AuthenticationContext.Consumer>
           {({
             isAuthenticated,
