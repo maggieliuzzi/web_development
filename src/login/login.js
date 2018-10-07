@@ -120,7 +120,7 @@ class LoginForm extends Component {
               <Link to="/newaccount">Create New Account</Link>
             </p>
           </div>
-          <p>It's free and always will be. </p>
+          <p>It's free and it will always be. </p>
         </form>
     );
   }
@@ -129,16 +129,19 @@ class LoginForm extends Component {
 export default class Login extends Component {
   render() {
     return (
-      <div className="page-login">
-        <p id="login_header">Login</p>
-        <AuthenticationContext.Consumer>
-          {({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
-            <span>
-              <AlreadyAuthCheck isAuthenticated={isAuthenticated}/>
-              <LoginForm Authenticate={Authenticate} setAuthenticatedName={setAuthenticatedName}/>
-            </span>
-          )}
-        </AuthenticationContext.Consumer>
+      <div id="login_page" className="page-login">
+        <div id="login_form">
+            <p id="login_header">Login</p>
+            <br />
+            <AuthenticationContext.Consumer>
+              {({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
+                <span>
+                  <AlreadyAuthCheck isAuthenticated={isAuthenticated}/>
+                  <LoginForm Authenticate={Authenticate} setAuthenticatedName={setAuthenticatedName}/>
+                </span>
+              )}
+            </AuthenticationContext.Consumer>
+        </div>
       </div>
     );
   }
