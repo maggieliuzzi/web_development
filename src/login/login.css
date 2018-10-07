@@ -2,6 +2,19 @@
   width: 100%;
   margin: 0;
   align-self: center;
-  border: 1px solid blue;
-  background-color: lightseagreen;
+  text-decoration: none;
+}
+
+#login_header {
+    font-weight: bold;
+    margin-top: 5%;
+    margin-bottom: 2.5%;
+}
+
+#sign_in {
+    padding: 1%;
+    background-color: pink;
+    border-radius: 20%;
+    font-weight: bold;
+    font-size: 110%;
 }

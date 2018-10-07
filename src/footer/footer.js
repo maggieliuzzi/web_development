@@ -5,7 +5,7 @@ export default class Footer extends Component {
   render() {
     return (
 		<div id="footer" className='site-footer'>
-			<p>Website created by Mitchell Clarke, Maggie Liuzzi and Abhusha Bogati</p>
+			<p>ⓒ 2018 Mitchell Clarke, Maggie Liuzzi and Abhusha Bogati. All rights reserved.</p>
 		</div>
     );
   }

@@ -33,11 +33,11 @@ class LoginForm extends Component {
     let passwordError = "";
 
     if (!this.state.username) {
-      nameError = "Mandatory Field.";
+      nameError = "Mandatory field.";
     }
 
     if (!this.state.password) {
-      passwordError = "Mandatory Field.";
+      passwordError = "Mandatory field.";
     }
 
     if (passwordError || nameError) {
@@ -73,10 +73,10 @@ class LoginForm extends Component {
             this.props.setAuthenticatedName(this.state.username);
             browserHistory.push("/dashboard");
           } else {
-            this.setState({loginError: "Username and password do not match."})
+            this.setState({loginError: "Wrong username or password."})
           }
         } else {
-          this.setState({loginError: "An error occured: "+msg.error})
+          this.setState({loginError: "An error occurred: "+msg.error})
         }
         console.log(JSON.stringify(msg));
       });
@@ -113,7 +113,7 @@ class LoginForm extends Component {
             {this.state.loginError}
           </div>
           <br />
-          <input type="submit" value="Sign In" />
+          <input id="sign_in" type="submit" value="Sign In" />
           <br /><br />
           <div className="page-newAccountArea">
             <p>
@@ -130,7 +130,7 @@ export default class Login extends Component {
   render() {
     return (
       <div className="page-login">
-        <p>This is the login page!</p>
+        <p id="login_header">Login</p>
         <AuthenticationContext.Consumer>
           {({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
             <span>
