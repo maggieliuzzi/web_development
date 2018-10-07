@@ -89,17 +89,24 @@ class UpdateForm extends Component {
       old_password: "",
       new_password: ""
     };
-    this.Update = this.handleUpdate.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
 
+    this.setState({
+      [name]: value
+    });
+  }
   handleUpdate(event) {
     // Code for when the user clicks button to update their credentials
     event.preventDefault();
-
     var username = this.props.AuthenticatedName;
     console.log(this.props.AuthenticatedName);
-    var old_password = null; // Read from the form
-    var new_password = null; // Read from the form
+
     var fetch_url = "http://" + HOSTNAME + SERVERPORT + "/api/creds";
     fetch(fetch_url, {
       method: "PUT",
@@ -110,8 +117,8 @@ class UpdateForm extends Component {
       body: JSON.stringify({
         //username, password and new_password used at DB
         username: username,
-        password: old_password,
-        new_password: new_password
+        password: this.state.old_password,
+        new_password: this.state.new_password
       })
     }).then(msg => {
       if (msg.success === true) {
@@ -140,15 +147,27 @@ class UpdateForm extends Component {
           To update your account's password, enter your new password and old
           password below:
         </p>
-        <form>
-          Old Password: <input type="password" name="oldpassword" />
+        <form onSubmit={this.handleUpdate}>
+          Old Password:
+          <input
+            type="password"
+            name="old_password"
+            value={this.state.old_password}
+            onChange={this.handleChange}
+          />
           <br />
-          New Password: <input type="password" name="newpassword" />
+          New Password:
+          <input
+            type="password"
+            name="new_password"
+            value={this.state.new_password}
+            onChange={this.handleChange}
+          />
           <br />
           <input
             type="submit"
             value="Update Password"
-            onClick={this.handleUpdate}
+            //SonSubmit={this.handleUpdate}
           />
         </form>
       </div>
@@ -162,17 +181,25 @@ class DeleteForm extends Component {
     super(props);
     this.state = {
       DeleteError: "",
-      username: "",
       password: ""
     };
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   handleDelete(event) {
     // Code for when the user clicks the button to delete their account
     event.preventDefault();
     var username = this.props.AuthenticatedName;
-    var password = null; // Read from the form
     var fetch_url = "http://" + HOSTNAME + SERVERPORT + "/api";
     fetch(fetch_url, {
       method: "DELETE",
@@ -182,7 +209,7 @@ class DeleteForm extends Component {
       },
       body: JSON.stringify({
         username: username,
-        password: password
+        password: this.state.password
       })
     })
       .then(res => {
@@ -192,9 +219,8 @@ class DeleteForm extends Component {
         if (msg.success === true) {
           if (msg.result === true) {
             this.setState({ DeleteError: "" });
-            this.props.Authenticate();
-            this.props.setAuthenticatedName(this.state.username);
-            browserHistory.push("/dashboard");
+            this.props.unAuthenticate();
+            browserHistory.push("/login");
           } else {
             this.setState({
               DeleteError: "Username and password do not match."
@@ -212,8 +238,14 @@ class DeleteForm extends Component {
       <div id="settings-delete">
         <br />
         <p>To completely delete your account, enter your password below:</p>
-        <form>
-          Password :<input type="password" name="password" />
+        <form onSubmit={this.handleDelete}>
+          Password :
+          <input
+            type="password"
+            name="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+          />
           <br />
           <button type="submit" onClick={this.handleDelete}>
             Delete Account

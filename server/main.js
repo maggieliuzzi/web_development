@@ -185,6 +185,10 @@ app.put("/api/creds", jsonparser, (req, res) => {
   username = req.body.username;
   old_password = req.body.password;
   new_password = req.body.new_password;
+  console.log("code reached here");
+  console.log(username);
+  console.log(old_password);
+  console.log(new_password);
   if (username && old_password && new_password) {
     db.user_check(m, username, old_password, (result, success, errmsg) => {
       if (success) {
