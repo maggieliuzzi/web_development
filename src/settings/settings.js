@@ -24,7 +24,7 @@ class TagForm extends Component {
   handleTagSubmit(event) {
     // Code used to submit new tags of user's interest
     event.preventDefault();
-    var username = this.props.AuthenticatedName;
+    var username = { AuthenticatedName };
     var new_tags = null; // Get the new tags from the form here.
     var fetch_url = "http://" + HOSTNAME + SERVERPORT + "/api/prefs";
     fetch(fetch_url, {
@@ -95,7 +95,9 @@ class UpdateForm extends Component {
   handleUpdate(event) {
     // Code for when the user clicks button to update their credentials
     event.preventDefault();
+
     var username = this.props.AuthenticatedName;
+    console.log(this.props.AuthenticatedName);
     var old_password = null; // Read from the form
     var new_password = null; // Read from the form
     var fetch_url = "http://" + HOSTNAME + SERVERPORT + "/api/creds";
@@ -139,9 +141,9 @@ class UpdateForm extends Component {
           password below:
         </p>
         <form>
-          Old Password: <input type="password" name="newpassword" />
+          Old Password: <input type="password" name="oldpassword" />
           <br />
-          New Password: <input type="password" name="oldpassword" />
+          New Password: <input type="password" name="newpassword" />
           <br />
           <input
             type="submit"
