@@ -18,7 +18,7 @@ function say(text) {
 
 var T = twitter.twitter_conn();
 var newsapi = news.news_conn();
-const KEYWORD = "Google";
+const KEYWORD = "Google AND Elon Musk";
 
 io.on("connection", function(socket) {
   say("Socket connection established.");

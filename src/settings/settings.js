@@ -24,7 +24,7 @@ class TagForm extends Component {
   handleTagSubmit(event) {
     // Code used to submit new tags of user's interest
     event.preventDefault();
-    var username = { AuthenticatedName };
+    var username = this.props.AuthenticatedName;
     var new_tags = null; // Get the new tags from the form here.
     var fetch_url = "http://" + HOSTNAME + SERVERPORT + "/api/prefs";
     fetch(fetch_url, {

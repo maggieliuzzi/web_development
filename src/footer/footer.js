@@ -4,7 +4,7 @@ import './footer.css';
 export default class Footer extends Component {
   render() {
     return (
-		<div className='site-footer'>
+		<div id="footer" className='site-footer'>
 			<p>Website created by Mitchell Clarke, Maggie Liuzzi and Abhusha Bogati</p>
 		</div>
     );
