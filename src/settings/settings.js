@@ -122,11 +122,11 @@ class UpdateForm extends Component {
           browserHistory.push("/dashboard");
         } else {
           this.setState({
-            UpdateError: "Please resubmit valid Username and password"
+            UpdateError: "Please enter valid username and password"
           });
         }
       } else {
-        this.setState({ UpdateError: "An error occured: " + msg.error });
+        this.setState({ UpdateError: "An error occurred: " + msg.error });
       }
       console.log(JSON.stringify(msg));
     });
@@ -137,7 +137,7 @@ class UpdateForm extends Component {
       <div id="settings-update">
         <br />
         <p>
-          To update your account's password, enter your new password and old
+          To update your password, enter your new and old
           password below:
         </p>
         <form>
@@ -228,7 +228,7 @@ export default class Settings extends Component {
   render() {
     return (
       <div className="page-settings">
-        <p>This is the settings page!</p>
+        <p id="settings_header">Settings</p>
         <AuthenticationContext.Consumer>
           {({
             isAuthenticated,
