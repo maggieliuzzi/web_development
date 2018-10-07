@@ -65,8 +65,8 @@ class TagForm extends Component {
       <div name="settings-tags">
         <br />
         <p>
-          To update the tags you want to recieve news about, enter them below
-          (seperated by commas):
+          To update the keywords you want to see posts about, enter them below
+          (separated by commas):
         </p>
         <input type="texta" name="tags" value={this.props.existing_tags} />
         <br />
@@ -213,7 +213,7 @@ class DeleteForm extends Component {
         <br />
         <p>To completely delete your account, enter your password below:</p>
         <form>
-          Password :<input type="password" name="password" />
+          Password:<input type="password" name="password" />
           <br />
           <button type="submit" onClick={this.handleDelete}>
             Delete Account
@@ -228,26 +228,28 @@ export default class Settings extends Component {
   render() {
     return (
       <div className="page-settings">
-        <p id="settings_header">Settings</p>
-        <AuthenticationContext.Consumer>
-          {({
-            isAuthenticated,
-            AuthenticatedName,
-            Authenticate,
-            unAuthenticate,
-            setAuthenticatedName
-          }) => (
-            <span>
-              <AuthCheck isAuthenticated={isAuthenticated} />
-              <TagForm AuthenticatedName={AuthenticatedName} />
-              <UpdateForm AuthenticatedName={AuthenticatedName} />
-              <DeleteForm
-                AuthenticatedName={AuthenticatedName}
-                unAuthenticate={unAuthenticate}
-              />
-            </span>
-          )}
-        </AuthenticationContext.Consumer>
+        <div id="settings_form">
+            <p id="settings_header">Settings</p>
+            <AuthenticationContext.Consumer>
+              {({
+                isAuthenticated,
+                AuthenticatedName,
+                Authenticate,
+                unAuthenticate,
+                setAuthenticatedName
+              }) => (
+                <span>
+                  <AuthCheck isAuthenticated={isAuthenticated} />
+                  <TagForm AuthenticatedName={AuthenticatedName} />
+                  <UpdateForm AuthenticatedName={AuthenticatedName} />
+                  <DeleteForm
+                    AuthenticatedName={AuthenticatedName}
+                    unAuthenticate={unAuthenticate}
+                  />
+                </span>
+              )}
+            </AuthenticationContext.Consumer>
+        </div>
       </div>
     );
   }
