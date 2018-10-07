@@ -3,6 +3,7 @@ import "./createnewaccount.css";
 import { HOSTNAME, SERVERPORT } from "../global";
 import { browserHistory } from "react-router";
 import { AuthenticationContext, AlreadyAuthCheck } from "../authentication";
+import { Link } from "react-router";
 
 class NewAccountForm extends Component {
   constructor(props) {
@@ -126,6 +127,13 @@ class NewAccountForm extends Component {
         </div>
         <br />
         <input type="submit" value="Sign Up" />
+        <br />
+        <br />
+        <div className="page-newAccountArea">
+          <p>
+            <Link to="/login">Log-In</Link>
+          </p>
+        </div>
       </form>
     );
   }

@@ -1,9 +1,9 @@
 var express = require("express");
 var app = express();
 var http = require("http").Server(app);
-var io = require("socket.io")(http, { origins: '*:*'});
+var io = require("socket.io")(http, { origins: "*:*" });
 var bodyParser = require("body-parser");
-var cors = require('cors');
+var cors = require("cors");
 var twitter = require("./twitterAPI");
 var news = require("./newsAPI");
 var u = require("./utils");
@@ -22,17 +22,16 @@ const KEYWORD = "Google";
 
 io.on("connection", function(socket) {
   say("Socket connection established.");
-  socket.on("loadPosts", (data) => {
-    twitter.twitter_retrieve(T, KEYWORD, (results_t) => {
-      news.news_retrieve_topHeadlines(newsapi, KEYWORD, (results_n) => {
-        results = [...results_t, ...results_n]
+  socket.on("loadPosts", data => {
+    twitter.twitter_retrieve(T, KEYWORD, results_t => {
+      news.news_retrieve_topHeadlines(newsapi, KEYWORD, results_n => {
+        results = [...results_t, ...results_n];
         shuffled = u.randomSubset(results, results.length);
-        socket.emit('receivePosts', shuffled);
+        socket.emit("receivePosts", shuffled);
       });
     });
   });
 });
-
 
 // --------------------------------------------------------
 // EXPRESS
@@ -43,7 +42,7 @@ jsonparser = bodyParser.json();
 
 // Connects to the MongoDB database
 var db = require("./db");
-var m = db.user_db(true, true);
+var m = db.user_db(false, true);
 
 // Enable CORS on server
 app.use(cors());
