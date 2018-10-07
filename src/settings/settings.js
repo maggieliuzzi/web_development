@@ -19,6 +19,16 @@ class TagForm extends Component {
     // Would be a GET to "/api/prefs/"+{this.props.AuthenticatedName}
 
     this.handleTagSubmit = this.handleTagSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   handleTagSubmit(event) {
@@ -68,19 +78,16 @@ class TagForm extends Component {
           To update the keywords you want to see posts about, enter them below
           (separated by commas):
         </p>
-        <input
-          id="tags_input"
-          type="texta"
-          name="tags"
-          value={this.props.existing_tags}
-        />
-        <br />
-        <input
-          id="update_tags_button"
-          type="submit"
-          value="Update Tags"
-          onClick={this.handleTagSubmit}
-        />
+        <form onSubmit={this.handleTagSubmit}>
+          <input
+            id="tags_input"
+            type="texta"
+            name="tags"
+            value={this.props.existing_tags}
+          />
+          <br />
+          <input id="update_tags_button" type="submit" value="Update Tags" />
+        </form>
       </div>
     );
   }
@@ -129,6 +136,7 @@ class UpdateForm extends Component {
     }).then(msg => {
       if (msg.success === true) {
         if (msg.result === true) {
+          //console.log("inside success and result of Update");
           this.setState({ UpdateError: "" });
           this.props.Authenticate();
           this.props.setAuthenticatedName(this.state.username);
