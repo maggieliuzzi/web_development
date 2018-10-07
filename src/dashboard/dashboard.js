@@ -20,13 +20,14 @@ class NewsList extends Component {
     this.state = {
       newsposts: []
     };
+    console.log(this.props.AuthenticatedName);
     socket.emit("loadPosts", { username: this.props.AuthenticatedName });
     subscribeSamples(data => {
       var currentlist = this.state.newsposts;
       for (var i = 0; i < data.length; i++) {
         currentlist.unshift(data[i]);
       }
-      var a = currentlist.slice(0, 6); // Choose number of posts to be displayed per page
+      var a = currentlist.slice(0, 10); // Choose number of posts to be displayed per page
       this.setState({ newsposts: a });
     });
   }
@@ -35,7 +36,7 @@ class NewsList extends Component {
     var listdom = this.state.newsposts.map(post => (
       <div id="post_div" key={post.id} className="dashboard-newspost">
         <p>
-          <b>{post.title}</b>
+          <b><a href={post.url}>{post.title}</a></b>
           <br />
           {post.content}
           <br />

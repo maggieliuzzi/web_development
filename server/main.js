@@ -18,7 +18,6 @@ function say(text) {
 
 var T = twitter.twitter_conn();
 var newsapi = news.news_conn();
-const KEYWORD = "Google OR Elon Musk";
 
 // Connects to the MongoDB database
 var db = require("./db");
@@ -29,10 +28,20 @@ io.on("connection", function(socket) {
   socket.on("loadPosts", data => {
     // This executes when the server receives a request from the client for some news posts
     // Insert a call for db.user_get_prefs in this stack of callbacks, between socket.on and twitter.twitter_retrieve
-    db.user_get_prefs(m, data.username, result => {
-      // More code to come
-      twitter.twitter_retrieve(T, KEYWORD, results_t => {
-        news.news_retrieve_topHeadlines(newsapi, KEYWORD, results_n => {
+    db.user_get_prefs(m, data.username, (result) => {
+      console.log(data.username);
+      var q_string = "";
+      for (var i=0; i<result.length; i++) {
+        if (i = result.length-1) {
+          var string_part = result[i]
+        } else {
+          var string_part = result[i]+" OR"
+        }
+        q_string.concat(string_part)
+      }
+      say(q_string);
+      twitter.twitter_retrieve(T, q_string, results_t => {
+        news.news_retrieve_everything(newsapi, q_string, results_n => {
           results = [...results_t, ...results_n];
           shuffled = u.randomSubset(results, results.length);
           socket.emit("receivePosts", shuffled);

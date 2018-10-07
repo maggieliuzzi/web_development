@@ -9,9 +9,8 @@ class TagForm extends Component {
     super(props);
 
     this.state = {
-      existing_tags: "Google, Elon Musk, Android",
+      tags: "Google, Elon Musk, Android",
       TagError: "",
-      new_tags: ""
     };
 
     // There needs to be another fetch to grab existing_tags from the server
@@ -20,6 +19,7 @@ class TagForm extends Component {
     this.handleTagSubmit = this.handleTagSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+
   handleChange(event) {
     const target = event.target;
     const value = target.value;
@@ -34,40 +34,40 @@ class TagForm extends Component {
     // Code used to submit new tags of user's interest
     event.preventDefault();
 
-    var username = this.props.AuthenticatedName;
-    var new_tags = null; // Get the new tags from the form here.
-    var fetch_url = "http://" + HOSTNAME + SERVERPORT + "/api/prefs";
-    fetch(fetch_url, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username: username,
-        tags: this.state.new_tags
+    var new_tags = this.state.tags;
+    new_tags = new_tags.split(',')
+    for (var i=0; i<new_tags.length; i++) {
+      new_tags[i] = new_tags[i].trim()
+    }
+
+    if (new_tags !== "") {
+      var username = this.props.AuthenticatedName;
+      var fetch_url = "http://" + HOSTNAME + SERVERPORT + "/api/prefs";
+      fetch(fetch_url, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: username,
+          tags: new_tags
+        })
       })
-    })
       .then(res => {
         return res.json();
       })
       .then(msg => {
         if (msg.success === true) {
-          if (msg.result === true) {
-            this.setState({ TagError: "" });
-            this.props.Authenticate();
-            browserHistory.push("/dashboard");
-            this.props.setAuthenticatedName(this.state.username);
-          } else {
-            this.setState({
-              TagError: "Please resubmit valid Username and password"
-            });
-          }
+          this.setState({ TagError: "" });
         } else {
           this.setState({ TagError: "An error occured: " + msg.error });
         }
         console.log(JSON.stringify(msg));
       });
+    } else {
+      this.setState({ TagError: "Please enter at least one tag."});
+    }
   }
 
   render() {
@@ -75,7 +75,7 @@ class TagForm extends Component {
       <div name="settings-tags">
         <br />
         <p>
-          To update the keywords you want to see posts about, enter them below
+          To pick keywords you would like to receive posts about, enter them below
           (separated by commas):
         </p>
         <form onSubmit={this.handleTagSubmit}>
@@ -83,7 +83,8 @@ class TagForm extends Component {
             id="tags_input"
             type="texta"
             name="tags"
-            value={this.props.existing_tags}
+            value={this.state.tags}
+            onChange={this.handleChange}
           />
           <br />
           <div style={{ fontSize: 14, color: "red" }}>{this.state.Error}</div>
@@ -93,8 +94,10 @@ class TagForm extends Component {
     );
   }
 }
+
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
+
 class UpdateForm extends Component {
   constructor(props) {
     super(props);
@@ -184,35 +187,28 @@ class UpdateForm extends Component {
         <br />
         <p>To update your password, enter your new and old password below:</p>
         <form onSubmit={this.handleUpdate}>
-          Old Password:
-          <input
-            type="password"
-            name="old_password"
-            value={this.state.old_password}
-            onChange={this.handleChange}
-          />
-          <br />
-          New Password:
-          <input
-            type="password"
-            name="new_password"
-            value={this.state.new_password}
-            onChange={this.handleChange}
-          />
-          <br />
-          <input
-            id="update_pwd_button"
-            type="submit"
-            value="Update Password"
-            //SonSubmit={this.handleUpdate}
-          />
+          <table className="centered-table">
+            <tr>
+              <td>Old Password: </td>
+              <td><input type="password" name="old_password" value={this.state.old_password} onChange={this.handleChange}/></td>
+            </tr>
+            <tr>
+              <td>New Password: </td>
+              <td><input type="password" name="new_password" value={this.state.new_password} onChange={this.handleChange}/></td>
+            </tr>
+            <tr>
+              <td colSpan='2'><input id="update_pwd_button" type="submit" value="Update Password" onSubmit={this.handleUpdate}/></td>
+            </tr>
+          </table>
         </form>
       </div>
     );
   }
 }
+
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
+
 class DeleteForm extends Component {
   constructor(props) {
     super(props);
@@ -296,6 +292,9 @@ class DeleteForm extends Component {
     );
   }
 }
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 export default class Settings extends Component {
   render() {

@@ -16,18 +16,19 @@ function news_retrieve_topHeadlines(newsapi, keyword, callback = (results) => {}
       // category: 'business',
       language: 'en',
       //country: 'us',
-      pageSize: 3
+      pageSize: 5
     }).then(response => {
       articles = response.articles;
       articles_array = [];
       for (var i = 0; i < articles.length; i++) {
-        news_object = {
+        var news_object = {
           id: u.randomString(12),
           title: articles[i].title,
           content: articles[i].description,
           posted: articles[i].publishedAt,
           author: articles[i].author,
-          source: articles[i].source.name
+          source: articles[i].source.name,
+          url: articles[i].url
         };
         articles_array.push(news_object);
       }
@@ -41,16 +42,25 @@ function news_retrieve_everything(newsapi, keyword, callback = (results) => {}) 
     // You must include at least one q, source, or domain
     newsapi.v2.everything({
       q: keyword,
-      sources: 'bbc-news,the-verge',
-      domains: 'bbc.co.uk, techcrunch.com',
+      //sources: 'bbc-news,the-verge',
+      //domains: 'bbc.co.uk, techcrunch.com',
       language: 'en',
       sortBy: 'relevancy',
-      pageSize: 3
+      pageSize: 5
     }).then(response => {
       articles = response.articles;
       articles_array = [];
       for (var i = 0; i < articles.length; i++) {
-        articles_array.push({'source': articles[i].source.name, 'title': articles[i].title});
+        var news_object = {
+          id: u.randomString(12),
+          title: articles[i].title,
+          content: articles[i].description,
+          posted: articles[i].publishedAt,
+          author: articles[i].author,
+          source: articles[i].source.name,
+          url: articles[i].url
+        };
+        articles_array.push(news_object);
       }
       callback(articles_array);
       /* response has the following format: {status: "ok",articles: [...]}*/
