@@ -68,9 +68,9 @@ class TagForm extends Component {
           To update the keywords you want to see posts about, enter them below
           (separated by commas):
         </p>
-        <input type="texta" name="tags" value={this.props.existing_tags} />
+        <input id="tags_input" type="texta" name="tags" value={this.props.existing_tags} />
         <br />
-        <input
+        <input id="update_tags_button"
           type="submit"
           value="Update Tags"
           onClick={this.handleTagSubmit}
@@ -141,11 +141,11 @@ class UpdateForm extends Component {
           password below:
         </p>
         <form>
-          Old Password: <input type="password" name="oldpassword" />
+          Old Password: <input id="old_pwd" type="password" name="oldpassword" />
           <br />
           New Password: <input type="password" name="newpassword" />
           <br />
-          <input
+          <input id="update_pwd_button"
             type="submit"
             value="Update Password"
             onClick={this.handleUpdate}
@@ -213,9 +213,9 @@ class DeleteForm extends Component {
         <br />
         <p>To completely delete your account, enter your password below:</p>
         <form>
-          Password:<input type="password" name="password" />
+          Password: <input type="password" name="password" />
           <br />
-          <button type="submit" onClick={this.handleDelete}>
+          <button id="delete_account_button" type="submit" onClick={this.handleDelete}>
             Delete Account
           </button>
         </form>
