@@ -26,9 +26,10 @@ var m = db.user_db(false, true);
 
 io.on("connection", function(socket) {
   say("Socket connection established.");
-  socket.on("loadPosts", data => { // This executes when the server receives a request from the client for some news posts
+  socket.on("loadPosts", data => {
+    // This executes when the server receives a request from the client for some news posts
     // Insert a call for db.user_get_prefs in this stack of callbacks, between socket.on and twitter.twitter_retrieve
-    db.user_get_prefs(m, data.username, (result) => {
+    db.user_get_prefs(m, data.username, result => {
       // More code to come
       twitter.twitter_retrieve(T, KEYWORD, results_t => {
         news.news_retrieve_topHeadlines(newsapi, KEYWORD, results_n => {
@@ -38,7 +39,7 @@ io.on("connection", function(socket) {
         });
       });
     });
-    console.log(result); // Check if correctly // ~ {username: <username>, tags: [<tag1>,<tag2>,<tag3>,...]} (array of tags)
+    // Check if correctly // ~ {username: <username>, tags: [<tag1>,<tag2>,<tag3>,...]} (array of tags)
     // Turn array of tags into query string (for "tag1 OR tag2 OR tag3..." // Try looping against result.tags and concatenating keywords to a string with "OR" between them
     // keywords = // Final string, which will be the keywords for twitter.twitter_retrieve and news.news_retrieve_topHeadlines
   });
@@ -158,9 +159,9 @@ app.delete(["/api", "/api/creds", "/api/prefs"], jsonparser, (req, res) => {
         if (result) {
           db.user_delete(m, username, (del_success, del_errmsg) => {
             if (del_success) {
-              res.json({ success: true, error: null });
+              res.json({ success: true, error: null, result: result });
             } else {
-              res.json({ success: false, error: del_errmsg });
+              res.json({ success: false, error: del_errmsg, result: result });
             }
           });
         } else {
@@ -206,9 +207,9 @@ app.put("/api/creds", jsonparser, (req, res) => {
             new_password,
             (success_new, errmsg_new) => {
               if (success_new) {
-                res.send({ success: true, error: null });
+                res.json({ success: true, error: null, result: result });
               } else {
-                res.send({ success: false, error: errmsg_new });
+                res.json({ success: false, error: errmsg_new, result: result });
               }
             }
           );

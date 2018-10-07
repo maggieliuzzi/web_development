@@ -11,7 +11,6 @@ class TagForm extends Component {
     this.state = {
       existing_tags: "Google, Elon Musk, Android",
       TagError: "",
-      username: "",
       new_tags: ""
     };
 
@@ -34,6 +33,7 @@ class TagForm extends Component {
   handleTagSubmit(event) {
     // Code used to submit new tags of user's interest
     event.preventDefault();
+
     var username = this.props.AuthenticatedName;
     var new_tags = null; // Get the new tags from the form here.
     var fetch_url = "http://" + HOSTNAME + SERVERPORT + "/api/prefs";
@@ -45,7 +45,7 @@ class TagForm extends Component {
       },
       body: JSON.stringify({
         username: username,
-        tags: new_tags
+        tags: this.state.new_tags
       })
     })
       .then(res => {
@@ -56,8 +56,8 @@ class TagForm extends Component {
           if (msg.result === true) {
             this.setState({ TagError: "" });
             this.props.Authenticate();
-            this.props.setAuthenticatedName(this.state.username);
             browserHistory.push("/dashboard");
+            this.props.setAuthenticatedName(this.state.username);
           } else {
             this.setState({
               TagError: "Please resubmit valid Username and password"
@@ -86,6 +86,7 @@ class TagForm extends Component {
             value={this.props.existing_tags}
           />
           <br />
+          <div style={{ fontSize: 14, color: "red" }}>{this.state.Error}</div>
           <input id="update_tags_button" type="submit" value="Update Tags" />
         </form>
       </div>
@@ -133,24 +134,28 @@ class UpdateForm extends Component {
         password: this.state.old_password,
         new_password: this.state.new_password
       })
-    }).then(msg => {
-      if (msg.success === true) {
-        if (msg.result === true) {
-          //console.log("inside success and result of Update");
-          this.setState({ UpdateError: "" });
-          this.props.Authenticate();
-          this.props.setAuthenticatedName(this.state.username);
-          browserHistory.push("/dashboard");
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(msg => {
+        console.log(JSON.stringify(msg));
+        if (msg.success === true) {
+          if (msg.result === true) {
+            this.setState({ UpdateError: "" });
+            browserHistory.push("/dashboard");
+            this.props.Authenticate();
+
+            this.props.setAuthenticatedName(this.state.username);
+          } else {
+            this.setState({
+              UpdateError: "Please enter valid username and password"
+            });
+          }
         } else {
-          this.setState({
-            UpdateError: "Please enter valid username and password"
-          });
+          this.setState({ UpdateError: "An error occurred: " + msg.error });
         }
-      } else {
-        this.setState({ UpdateError: "An error occurred: " + msg.error });
-      }
-      console.log(JSON.stringify(msg));
-    });
+      });
   }
 
   render() {

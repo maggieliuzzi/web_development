@@ -250,7 +250,6 @@ function user_add(
           );
           callback(false, "Server error");
         } else {
-<<<<<<< HEAD
           say("Successfully hashed " + username + "'s password.");
           db_add(
             models.usercreds,
@@ -279,20 +278,6 @@ function user_add(
               );
             }
           );
-=======
-          say("Successfully hashed "+username+"'s password.");
-          db_add(models.usercreds,{username: username, password: hash}, (succb)=>{
-            db_add(models.userprefs,{username: username, tags: [""]}, (succc)=>{
-              if (succb && succc) {
-                say("Successfully added user "+username+" to the database.", true)
-                callback(true, "No error");
-              } else {
-                say("Could not add "+username+" to the database.", true)
-                callback(false, "Server error");
-              }
-            });
-          });
->>>>>>> a561ca01916e38f94520d327ea2ec694da5759ab
         }
       });
     } else {
