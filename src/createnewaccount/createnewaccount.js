@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./createnewaccount.css";
 import { HOSTNAME, SERVERPORT } from "../global";
 import { browserHistory } from "react-router";
-import { AuthenticationContext, AlreadyAuthCheck } from '../authentication';
+import { AuthenticationContext, AlreadyAuthCheck } from "../authentication";
 
 class NewAccountForm extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class NewAccountForm extends Component {
       nameError: "",
       emailError: "",
       passwordError: "",
-      accountError: "",
+      accountError: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -74,17 +74,17 @@ class NewAccountForm extends Component {
           password: this.state.password
         })
       })
-      .then(res => {
-        return res.json();
-      })
-      .then(msg => {
-        if (msg.success === true) {
-          browserHistory.push("/login");
-        } else {
-          this.setState({accountError: "An error occured: "+msg.error})
-        }
-        console.log(JSON.stringify(msg));
-      });
+        .then(res => {
+          return res.json();
+        })
+        .then(msg => {
+          if (msg.success === true) {
+            browserHistory.push("/login");
+          } else {
+            this.setState({ accountError: "An error occured: " + msg.error });
+          }
+          console.log(JSON.stringify(msg));
+        });
     }
   }
 
@@ -98,13 +98,11 @@ class NewAccountForm extends Component {
           value={this.state.username}
           onChange={this.handleChange}
         />
-        <div style={{ fontSize: 14, color: "red" }}>
-          {this.state.nameError}
-        </div>
+        <div style={{ fontSize: 14, color: "red" }}>{this.state.nameError}</div>
         <br />
         Password: <br />
         <input
-          type="password"
+          type="text"
           name="password"
           value={this.state.password}
           onChange={this.handleChange}
@@ -134,17 +132,21 @@ class NewAccountForm extends Component {
 }
 
 export default class CreatNewAccount extends Component {
-  render () {
+  render() {
     return (
       <div className="page-newAccount">
         <p>Create New Account !!</p>
         <AuthenticationContext.Consumer>
-          {({isAuthenticated, AuthenticatedName, Authenticate, unAuthenticate, setAuthenticatedName}) => (
-            <AlreadyAuthCheck isAuthenticated={isAuthenticated}/>
-          )}
+          {({
+            isAuthenticated,
+            AuthenticatedName,
+            Authenticate,
+            unAuthenticate,
+            setAuthenticatedName
+          }) => <AlreadyAuthCheck isAuthenticated={isAuthenticated} />}
         </AuthenticationContext.Consumer>
-        <NewAccountForm/>
-    </div>
-    )
+        <NewAccountForm />
+      </div>
+    );
   }
 }
