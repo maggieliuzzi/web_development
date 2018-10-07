@@ -227,7 +227,7 @@ class DeleteForm extends Component {
 export default class Settings extends Component {
   render() {
     return (
-      <div className="page-settings">
+      <div id="settings_page" className="page-settings">
         <div id="settings_form">
             <p id="settings_header">Settings</p>
             <AuthenticationContext.Consumer>
