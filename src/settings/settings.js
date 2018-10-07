@@ -68,9 +68,15 @@ class TagForm extends Component {
           To update the keywords you want to see posts about, enter them below
           (separated by commas):
         </p>
-        <input id="tags_input" type="texta" name="tags" value={this.props.existing_tags} />
+        <input
+          id="tags_input"
+          type="texta"
+          name="tags"
+          value={this.props.existing_tags}
+        />
         <br />
-        <input id="update_tags_button"
+        <input
+          id="update_tags_button"
           type="submit"
           value="Update Tags"
           onClick={this.handleTagSubmit}
@@ -143,11 +149,7 @@ class UpdateForm extends Component {
     return (
       <div id="settings-update">
         <br />
-        <p>
-          To update your password, enter your new and old
-          password below:
-        </p>
-<<<<<<< HEAD
+        <p>To update your password, enter your new and old password below:</p>
         <form onSubmit={this.handleUpdate}>
           Old Password:
           <input
@@ -156,10 +158,6 @@ class UpdateForm extends Component {
             value={this.state.old_password}
             onChange={this.handleChange}
           />
-=======
-        <form>
-          Old Password: <input id="old_pwd" type="password" name="oldpassword" />
->>>>>>> a561ca01916e38f94520d327ea2ec694da5759ab
           <br />
           New Password:
           <input
@@ -169,7 +167,8 @@ class UpdateForm extends Component {
             onChange={this.handleChange}
           />
           <br />
-          <input id="update_pwd_button"
+          <input
+            id="update_pwd_button"
             type="submit"
             value="Update Password"
             //SonSubmit={this.handleUpdate}
@@ -179,8 +178,8 @@ class UpdateForm extends Component {
     );
   }
 }
-//-------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------
 class DeleteForm extends Component {
   constructor(props) {
     super(props);
@@ -243,7 +242,6 @@ class DeleteForm extends Component {
       <div id="settings-delete">
         <br />
         <p>To completely delete your account, enter your password below:</p>
-<<<<<<< HEAD
         <form onSubmit={this.handleDelete}>
           Password :
           <input
@@ -252,12 +250,12 @@ class DeleteForm extends Component {
             value={this.state.password}
             onChange={this.handleChange}
           />
-=======
-        <form>
-          Password: <input type="password" name="password" />
->>>>>>> a561ca01916e38f94520d327ea2ec694da5759ab
           <br />
-          <button id="delete_account_button" type="submit" onClick={this.handleDelete}>
+          <button
+            id="delete_account_button"
+            type="submit"
+            onClick={this.handleDelete}
+          >
             Delete Account
           </button>
         </form>
@@ -271,26 +269,26 @@ export default class Settings extends Component {
     return (
       <div id="settings_page" className="page-settings">
         <div id="settings_form">
-            <p id="settings_header">Settings</p>
-            <AuthenticationContext.Consumer>
-              {({
-                isAuthenticated,
-                AuthenticatedName,
-                Authenticate,
-                unAuthenticate,
-                setAuthenticatedName
-              }) => (
-                <span>
-                  <AuthCheck isAuthenticated={isAuthenticated} />
-                  <TagForm AuthenticatedName={AuthenticatedName} />
-                  <UpdateForm AuthenticatedName={AuthenticatedName} />
-                  <DeleteForm
-                    AuthenticatedName={AuthenticatedName}
-                    unAuthenticate={unAuthenticate}
-                  />
-                </span>
-              )}
-            </AuthenticationContext.Consumer>
+          <p id="settings_header">Settings</p>
+          <AuthenticationContext.Consumer>
+            {({
+              isAuthenticated,
+              AuthenticatedName,
+              Authenticate,
+              unAuthenticate,
+              setAuthenticatedName
+            }) => (
+              <span>
+                <AuthCheck isAuthenticated={isAuthenticated} />
+                <TagForm AuthenticatedName={AuthenticatedName} />
+                <UpdateForm AuthenticatedName={AuthenticatedName} />
+                <DeleteForm
+                  AuthenticatedName={AuthenticatedName}
+                  unAuthenticate={unAuthenticate}
+                />
+              </span>
+            )}
+          </AuthenticationContext.Consumer>
         </div>
       </div>
     );
