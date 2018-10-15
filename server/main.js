@@ -8,6 +8,8 @@ var twitter = require("./twitterAPI");
 var news = require("./newsAPI");
 var u = require("./utils");
 
+const { performance } = require('perf_hooks');
+
 function say(text) {
   console.log("\x1b[31;1m%s\x1b[0m", "Server: " + text);
 }
@@ -46,11 +48,8 @@ io.on("connection", function(socket) {
         });
       });
     });
-    // Check if correctly // ~ {username: <username>, tags: [<tag1>,<tag2>,<tag3>,...]} (array of tags)
-    // Turn array of tags into query string (for "tag1 OR tag2 OR tag3..." // Try looping against result.tags and concatenating keywords to a string with "OR" between them
-    // keywords = // Final string, which will be the keywords for twitter.twitter_retrieve and news.news_retrieve_topHeadlines
   });
-}); // Check if one too many });
+});
 
 // --------------------------------------------------------
 // EXPRESS
@@ -131,6 +130,7 @@ app.post("/api", jsonparser, (req, res) => {
 
 // Responds to POST at "/api/creds" by checking if a user's credentials are correct
 app.post("/api/creds", jsonparser, (req, res) => {
+  t1 = performance.now();
   var username = req.body.username;
   var password = req.body.password;
   if (username && password) {
@@ -140,6 +140,8 @@ app.post("/api/creds", jsonparser, (req, res) => {
       } else {
         res.json({ success: false, error: errmsg, result: null });
       }
+      t2 = performance.now();
+      say("Response time was "+(t2-t1));
     });
   } else {
     res.sendStatus(400);

@@ -31,7 +31,7 @@ function db_make_creds() {
 // Creates the usercreds schema and model; returns the model
   say("Creating usercreds model...");
   var usercreds_schema = new mongoose.Schema({
-    username: String,
+    username: {type: String, index: true},
     password: String,
   });
   var usercreds_model = mongoose.model("usercreds", usercreds_schema);
@@ -44,7 +44,7 @@ function db_make_prefs() {
 // Creates the userprefs schema and model; returns the model
   say("Creating userprefs model...");
   var userprefs_schema = new mongoose.Schema({
-    username: String,
+    username: {type: String, index: true},
     tags: [String],
   });
   var userprefs_model = mongoose.model("userprefs", userprefs_schema);
@@ -84,12 +84,12 @@ function db_add(model, instance, callback = (success)=>{}) {
 function db_find(model, query, callback = (docs, success)=>{}) {
 // Finds matches to Mongoose 'query' against collection associated with 'model' and returns results and if it was successful via callback
   say("Searching "+model.collection.collectionName+" with query "+JSON.stringify(query)+" ...");
-  model.find(query, (err, docs) => {
+  model.findOne(query, (err, docs) => {
     if (err) {
       say("Search error: "+err, true);
       callback(null, false);
     } else {
-      say("Search for "+JSON.stringify(query)+" in "+model.collection.collectionName+" complete with "+docs.length+" result(s).");
+      say("Search for "+JSON.stringify(query)+" in "+model.collection.collectionName+" complete.");
       callback(docs, true);
     }
   });
@@ -129,21 +129,19 @@ function db_update(model, query, instance, callback = (success)=>{}) {
 function db_exists(models, username, callback = (result, success)=>{}) {
 // Checks if a 'username' exists in both usercreds and userprefs, returning if it exists and whether the operation was successful via callback
   say("Checking if user "+username+" exists...")
-  db_find(models.usercreds, {username: username}, (doca, succa) => {
-    db_find(models.userprefs, {username: username}, (docb, succb) => {
-      if (succa && succb) {
-        if (doca.length >= 1 && docb.length >= 1) {
-          say("User "+username+" found.")
-          callback(true, true);
-        } else {
-          say("User "+username+" not found.")
-          callback(false, true);
-        }
+  db_find(models.userprefs, {username: username}, (doca, succa) => {
+    if (succa) {
+      if (doca) {
+        say("User "+username+" found.")
+        callback(true, true);
       } else {
-        say("Could not determine if user "+username+" exists due to error.")
-        callback(null, false);
+        say("User "+username+" not found.")
+        callback(false, true);
       }
-    });
+    } else {
+      say("Could not determine if user "+username+" exists due to error.")
+      callback(null, false);
+    }
   });
 }
 
@@ -229,7 +227,7 @@ function user_check(models, username, password, callback = (result, success, err
   say("Checking credentials for user "+username+"...");
   db_find(models.usercreds, {username: username}, (docs, success)=>{
     if (success) {
-      if (docs.length >= 1) {
+      if (docs) {
         say("Unhashing "+username+"'s password...");
         var hash = docs[0].password;
         bcrypt.compare(password, hash, function(err, res) {
@@ -271,7 +269,7 @@ function user_get_prefs(models, username, callback = (result, success, errmsg)=>
   say("Retrieving "+username+"'s preferences...");
   db_find(models.userprefs, {username: username}, (docs, succa)=>{
     if (succa) {
-      if (docs.length >= 1) {
+      if (docs) {
         say("Retrieved "+username+"'s preferences.", true);
         var d = docs[0];
         callback({tags: d.tags}, true, "No error");

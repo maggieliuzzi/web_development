@@ -13,9 +13,6 @@ class TagForm extends Component {
       TagError: "",
     };
 
-    // There needs to be another fetch to grab existing_tags from the server
-    // Would be a GET to "/api/prefs/"+{this.props.AuthenticatedName}
-
     this.handleTagSubmit = this.handleTagSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -87,7 +84,7 @@ class TagForm extends Component {
             onChange={this.handleChange}
           />
           <br />
-          <div style={{ fontSize: 14, color: "red" }}>{this.state.Error}</div>
+          <div style={{ fontSize: 14, color: "red" }}>{this.state.TagError}</div>
           <input id="update_tags_button" type="submit" value="Update Tags" />
         </form>
       </div>
